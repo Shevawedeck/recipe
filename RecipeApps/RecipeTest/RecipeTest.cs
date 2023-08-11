@@ -10,8 +10,8 @@ namespace RecipeTest
             DBManager.SetConnectionString("Server=.\\SQLExpress;Database=HeartyHearthDB;Trusted_Connection=true");
         }
         [Test]
-        [TestCase("squash soup", "sweet salmon", 400, "2010-01-01", "2011-01-01")]
-        public void InsertNewRecipe(string recipename, string recipename2, int calories, DateTime datedrafted, DateTime datepublished)
+        [TestCase("squash soup", 400, "2010-01-01", "2011-01-01")]
+        public void InsertNewRecipe(string recipename, int calories, DateTime datedrafted, DateTime datepublished)
         {
             DataTable dt = SQLUtility.GetDataTable("select * from recipe where recipeid = 0");
             DataRow r = dt.Rows.Add();
@@ -20,11 +20,6 @@ namespace RecipeTest
             Assume.That(cuisineid > 0, "cant run test - no cuisines in db");
             int usernameid = SQLUtility.GetFirstColumnFirstRowValue("select top 1 usernameid from username");
             Assume.That(usernameid > 0, "cant run test - no usernames in db");
-            DataTable dtwithrecipe = SQLUtility.GetDataTable("select r.recipeid, r.RecipeName from recipe r where r.RecipeName = " +  recipename);
-            if (dtwithrecipe.Rows.Count == 1)
-            {
-                recipename = recipename2;
-            }
             r["RecipeName"] = recipename;
             r["CuisineId"] = cuisineid;
             r["UsernameId"] = usernameid;
@@ -32,9 +27,11 @@ namespace RecipeTest
             r["DateDrafted"] = datedrafted;
             r["DatePublished"] = datepublished;
             Recipe.Save(dt);
-            int newid = SQLUtility.GetFirstColumnFirstRowValue("select * from recipe where RecipeName = " + recipename);
+            int newid = SQLUtility.GetFirstColumnFirstRowValue("select * from recipe where RecipeName = " + "'" + recipename + "'");
             Assert.IsTrue(newid > 0, "recipe " + recipename + "is not found in db");
             TestContext.WriteLine("recipe with name " + recipename + " is found in db with pk value = " + newid);
+            DataTable dtwithrecipe = SQLUtility.GetDataTable("select * from recipe r where r.RecipeName = " + "'" + recipename + "'");
+            Recipe.Delete(dtwithrecipe);
         }
         [Test]
         public void ChangeExistingRecipeCalories()
