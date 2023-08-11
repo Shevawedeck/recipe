@@ -12,22 +12,45 @@ namespace RecipeWinForms
 {
     public partial class frmRecipe : Form
     {
+        DataTable dtrecipe;
         public frmRecipe()
         {
             InitializeComponent();
         }
         public void ShowForm(int recipeid)
         {
-            string sql = "select RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipeImage from recipe r where r.RecipeId =" + recipeid.ToString();
-            DataTable dt = SQLUtility.GetDataTable(sql);
-            lblRecipeName.DataBindings.Add("text", dt, "RecipeName");
-            txtCalories.DataBindings.Add("Text", dt, "Calories");
-            txtDateDrafted.DataBindings.Add("Text", dt, "DateDrafted");
-            txtDatePublished.DataBindings.Add("Text", dt, "DatePublished");
-            txtDateArchived.DataBindings.Add("Text", dt, "DateArchived");
-            txtRecipeStatus.DataBindings.Add("Text", dt, "RecipeStatus");
-            txtRecipeImage.DataBindings.Add("Text", dt, "RecipeImage");
+            dtrecipe = Recipe.Load(recipeid);
+            if (recipeid == 0) { dtrecipe.Rows.Add(); }
+            DataTable dtcuisine = Recipe.GetCuisineList();
+            DataTable dtusername = Recipe.GetUsernameList();
+
+            //WindowsFormUtility.SetListBinding(lstCuisineType, dtcuisine, dtrecipe, "Cuisine");
+            //WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtrecipe, "Username");
+            //WindowsFormUtility.SetControlBinding(txtRecipeName, dtrecipe);
+            WindowsFormUtility.SetControlBinding(txtCalories, dtrecipe);
+            WindowsFormUtility.SetControlBinding(txtDateDrafted, dtrecipe);
+            WindowsFormUtility.SetControlBinding(txtDatePublished, dtrecipe);
+            WindowsFormUtility.SetControlBinding(txtRecipeImage, dtrecipe);
+
             this.Show();
+        }
+        private void Delete()
+        {
+            Recipe.Delete(dtrecipe);
+            this.Close();
+        }
+        private void Save()
+        {
+            Recipe.Save(dtrecipe);
+        }
+        private void BtnDelete_Click(object? sender, EventArgs e)
+        {
+            Delete();
+        }
+
+        private void BtnSave_Click(object? sender, EventArgs e)
+        {
+            Save();
         }
     }
 }
