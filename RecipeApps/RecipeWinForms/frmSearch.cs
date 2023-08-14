@@ -1,5 +1,4 @@
-﻿using CPUFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,7 +17,8 @@ namespace RecipeWinForms
             InitializeComponent();
             btnSearch.Click += BtnSearch_Click;
             gRecipe.CellDoubleClick += GRecipe_CellDoubleClick;
-            FormatGrid();
+            btnNew.Click += BtnNew_Click;
+            WindowsFormUtility.FormatGridForSearchResults(gRecipe);
         }
 
         private void GRecipe_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
@@ -38,21 +38,18 @@ namespace RecipeWinForms
         }
 
 
-        private void FormatGrid()
-        {
-        //    gRecipe.AllowUserToAddRows = false;
-        //    gRecipe.ReadOnly = true;
-        //    gRecipe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        //    gRecipe.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        }
-
-
-
         private void SearchForRecipe(string recipename)
         {
             DataTable dt = Recipe.SearchRecipes(recipename);
             gRecipe.DataSource = dt;
             gRecipe.Columns["RecipeId"].Visible = false;
+            gRecipe.Columns["CuisineId"].Visible = false;
+            gRecipe.Columns["UsernameId"].Visible = false;
+            gRecipe.Columns["DateDrafted"].Visible = false;
+            gRecipe.Columns["DatePublished"].Visible = false;
+            gRecipe.Columns["DateArchived"].Visible = false;
+            gRecipe.Columns["RecipeStatus"].Visible = false;
+            gRecipe.Columns["RecipeImage"].Visible = false;
         }
         private void BtnSearch_Click(object? sender, EventArgs e)
         {

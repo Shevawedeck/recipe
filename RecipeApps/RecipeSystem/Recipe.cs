@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,23 +12,36 @@ namespace RecipeSystem
     {
         public static DataTable SearchRecipes(string recipename)
         {
-            string sql = "select RecipeId, RecipeName, Calories from recipe r where r.RecipeName like '%" + recipename + "%' ";
-            DataTable dt = SQLUtility.GetDataTable(sql);
+            DataTable dt = new();
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
+            cmd.Parameters["@RecipeName"].Value = recipename;
+            dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
 
         public static DataTable Load(int recipeid)
         {
-            string sql = "select r.*, u.UsernameName, c.CuisineType from recipe r join Cuisine c on c.CuisineId = r.CuisineId join Username u on u.UsernameId = r.UsernameId where r.RecipeId =" + recipeid.ToString();
-            return SQLUtility.GetDataTable(sql);
+            DataTable dt = new();
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
+            cmd.Parameters["@RecipeId"].Value = recipeid;
+            dt = SQLUtility.GetDataTable(cmd);
+            return dt;
         }
         public static DataTable GetCuisineList()
         {
-            return SQLUtility.GetDataTable("select CuisineType, CuisineId from Cuisine");
+            DataTable dt = new();
+            SqlCommand cmd = SQLUtility.GetSQLCommand("CuisineGet");
+            cmd.Parameters["@All"].Value = 1;
+            dt = SQLUtility.GetDataTable(cmd);
+            return dt;
         }
         public static DataTable GetUsernameList()
         {
-            return SQLUtility.GetDataTable("select UsernameName, UsernameId from Username");
+            DataTable dt = new();
+            SqlCommand cmd = SQLUtility.GetSQLCommand("UsernameGet");
+            cmd.Parameters["@All"].Value = 1;
+            dt = SQLUtility.GetDataTable(cmd);
+            return dt;
         }
         public static void Save(DataTable dtrecipe)
         {
@@ -43,13 +57,13 @@ namespace RecipeSystem
             {
                 sql = $"insert Recipe(UsernameId, CuisineId, RecipeName, Calories, DateDrafted, DatePublished) select '{r["UsernameId"]}', '{r["CuisineId"]}', '{r["RecipeName"]}', {r["Calories"]}, '{r["DateDrafted"]}', '{r["DatePublished"]}' ";
             }
-            SQLUtility.ExecuteSql(sql);
+            SQLUtility.ExecuteSQL(sql);
         }
         public static void Delete(DataTable dtrecipe)
         {
             int id = (int)dtrecipe.Rows[0]["RecipeId"];
             string sql = "delete recipe where RecipeId = " + id;
-            SQLUtility.ExecuteSql(sql);
+            SQLUtility.ExecuteSQL(sql);
         }
     }
 }

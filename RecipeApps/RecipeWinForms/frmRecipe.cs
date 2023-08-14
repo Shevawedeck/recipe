@@ -23,10 +23,9 @@ namespace RecipeWinForms
             if (recipeid == 0) { dtrecipe.Rows.Add(); }
             DataTable dtcuisine = Recipe.GetCuisineList();
             DataTable dtusername = Recipe.GetUsernameList();
-
-            //WindowsFormUtility.SetListBinding(lstCuisineType, dtcuisine, dtrecipe, "Cuisine");
-            //WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtrecipe, "Username");
-            //WindowsFormUtility.SetControlBinding(txtRecipeName, dtrecipe);
+            WindowsFormUtility.SetListBinding(lstCuisineType, dtcuisine, dtrecipe, "Cuisine");
+            WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtrecipe, "Username");
+            WindowsFormUtility.SetControlBinding(txtRecipeName, dtrecipe);
             WindowsFormUtility.SetControlBinding(txtCalories, dtrecipe);
             WindowsFormUtility.SetControlBinding(txtDateDrafted, dtrecipe);
             WindowsFormUtility.SetControlBinding(txtDatePublished, dtrecipe);
