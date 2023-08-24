@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -35,12 +34,41 @@ namespace RecipeWinForms
         }
         private void Delete()
         {
-            Recipe.Delete(dtrecipe);
-            this.Close();
+            var response = MessageBox.Show("Are you sure you want to delete this recipe?", "HeartyHearth", MessageBoxButtons.YesNo);
+            if (response == DialogResult.No)
+            {
+                return;
+            }
+            Application.UseWaitCursor = true;
+            try
+            {
+                Recipe.Delete(dtrecipe);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "HeartyHearth");
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+            }
         }
         private void Save()
         {
-            Recipe.Save(dtrecipe);
+            Application.UseWaitCursor = true;
+            try
+            {
+                Recipe.Save(dtrecipe);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "HeartyHearth");
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+            }
         }
         private void BtnDelete_Click(object? sender, EventArgs e)
         {

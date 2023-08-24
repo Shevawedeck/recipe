@@ -52,6 +52,34 @@ namespace RecipeTest
             TestContext.WriteLine("Calories for recipe (" + recipeid + ") = " + newCalories);
         }
         [Test]
+        public void ChangeExistingRecipeToInvalidCalories()
+        {
+            int recipeid = GetExistingRecipeId();
+            Assume.That(recipeid > 0, "no recipes in DB, cant run test");
+            int calories = SQLUtility.GetFirstColumnFirstRowValue("select Calories from recipe where recipeid = " + recipeid);
+            TestContext.WriteLine("Calories for recipeid " + recipeid + " is " + calories);
+            calories = calories - 1000;
+            TestContext.WriteLine("change Calories to " + calories);
+            DataTable dt = Recipe.Load(recipeid);
+
+            dt.Rows[0]["Calories"] = calories;
+            Exception ex = Assert.Throws<Exception>(() => Recipe.Save(dt));
+            TestContext.WriteLine(ex.Message);
+        }
+        [Test]
+        public void ChangeExistingRecipeToInvalidRecipeName()
+        {
+            int recipeid = GetExistingRecipeId();
+            Assume.That(recipeid > 0, "no recipes in DB, cant run test");
+            string recipename = GetFirstColumnFirstRowValueAsString("select top 1 RecipeName from recipe where recipeid <> " + recipeid);
+            string currecipename = GetFirstColumnFirstRowValueAsString("select top 1 RecipeName from recipe where recipeid = " + recipeid);
+            TestContext.WriteLine("change recipeid " + recipeid + " recipename from " + currecipename + " to " + recipename + "which belongs to a diff recipe");
+            DataTable dt = Recipe.Load(recipeid);
+            dt.Rows[0]["RecipeName"] = recipename;
+            Exception ex = Assert.Throws<Exception>(() => Recipe.Save(dt));
+            TestContext.WriteLine(ex.Message);
+        }
+        [Test]
         public void DeleteRecipe()
         {
             DataTable dt = SQLUtility.GetDataTable("select top 1 r.recipeid, RecipeName from recipe r left join Direction d on d.recipeid = r.RecipeId where d.DirectionId is null");
@@ -69,6 +97,24 @@ namespace RecipeTest
             DataTable dtafterdelete = SQLUtility.GetDataTable("select * from recipe where recipeid = " + recipeid);
             Assert.IsTrue(dtafterdelete.Rows.Count == 0, "record with recipeid " + recipeid + " exists in db");
             TestContext.WriteLine("record with recipeid " + recipeid + " does not exist in database");
+        }
+        [Test]
+        public void DeleteRecipeWithDirection()
+        {
+            string sql = @"select top 1 r.RecipeId, RecipeName, r.Calories from Recipe r join Direction d on d.recipeid = r.RecipeId where d.DirectionId is not null";
+            DataTable dt = SQLUtility.GetDataTable(sql);
+            int recipeid = 0;
+            string recipedesc = "";
+            if (dt.Rows.Count > 0)
+            {
+                recipeid = (int)dt.Rows[0]["recipeid"];
+                recipedesc = dt.Rows[0]["RecipeId"] + " " + dt.Rows[0]["RecipeName"];
+            }
+            Assume.That(recipeid > 0, "no recipes with Directions in DB, cant run test");
+            TestContext.WriteLine("existing recipe with direction with id = " + recipeid + " " + recipedesc);
+            TestContext.WriteLine("ensure that app cannot delete " + recipeid);
+            Exception ex = Assert.Throws<Exception>(() => Recipe.Delete(dt));
+            TestContext.WriteLine(ex.Message);
         }
         [Test]
         public void Loadrecipe()
@@ -97,6 +143,19 @@ namespace RecipeTest
         private int GetExistingRecipeId()
         {
             return SQLUtility.GetFirstColumnFirstRowValue("select top 1 recipeid from recipe");
+        }
+        private string GetFirstColumnFirstRowValueAsString(string sql)
+        {
+            string n = "";
+            DataTable dt = SQLUtility.GetDataTable(sql);
+            if (dt.Rows.Count > 0 && dt.Columns.Count > 0)
+            {
+                if (dt.Rows[0][0] != DBNull.Value)
+                {
+                    dt.Rows[0][0].ToString();
+                }
+            }
+            return n;
         }
     }
 }
