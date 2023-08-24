@@ -15,6 +15,8 @@ namespace RecipeWinForms
         public frmRecipe()
         {
             InitializeComponent();
+            btnSave.Click += BtnSave_Click;
+            btnDelete.Click += BtnDelete_Click;
         }
         public void ShowForm(int recipeid)
         {
