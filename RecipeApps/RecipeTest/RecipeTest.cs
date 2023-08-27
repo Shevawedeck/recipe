@@ -117,6 +117,24 @@ namespace RecipeTest
             TestContext.WriteLine(ex.Message);
         }
         [Test]
+        public void DeleteRecipeThatsNotArchiveFor30DaysOrDrafted()
+        {
+            string sql = @"select top 1 r.RecipeId, RecipeName, r.Calories from Recipe r where (datediff(day, r.DateArchived, current_timestamp) <= 30 or r.RecipeStatus = 'published')";
+            DataTable dt = SQLUtility.GetDataTable(sql);
+            int recipeid = 0;
+            string recipedesc = "";
+            if (dt.Rows.Count > 0)
+            {
+                recipeid = (int)dt.Rows[0]["recipeid"];
+                recipedesc = dt.Rows[0]["RecipeId"] + " " + dt.Rows[0]["RecipeName"];
+            }
+            Assume.That(recipeid > 0, "no recipes not archived for more than 30 days in DB, cant run test");
+            TestContext.WriteLine("existing recipe archived less than 30 days or not archived or not drafted with id = " + recipeid + " " + recipedesc);
+            TestContext.WriteLine("ensure that app cannot delete " + recipeid);
+            Exception ex = Assert.Throws<Exception>(() => Recipe.Delete(dt));
+            TestContext.WriteLine(ex.Message);
+        }
+        [Test]
         public void Loadrecipe()
         {
             int recipeid = GetExistingRecipeId();
