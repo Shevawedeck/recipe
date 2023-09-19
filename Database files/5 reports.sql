@@ -12,7 +12,13 @@ b) Whenever you have a record for a specific item include the name of the pictur
 Home Page
     One result set with the number of recipes, meals, and cookbooks. Each row should have a column with the item name (Ex: Recipes) and a column with the count.
 */
-
+select Type = 'Recipes', Number = count(r.RecipeName) 
+from Recipe r
+union select 'Meals', count(m.MealName)
+from Meal m
+union select 'Cookbook', count(c.CookbookName)
+from Cookbook c
+order by [Type] desc
 
 /*
 Recipe list page:
@@ -21,8 +27,14 @@ Recipe list page:
     In the resultset show the Recipe with its status, dates it was published and archived in mm/dd/yyyy format (blank if not archived), user, number of calories and number of ingredients.
     Tip: You'll need to use the convert function for the dates
 */
-
-
+select r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, NumOfIngredients = count(ri.IngredientId)
+from Recipe r
+join Username u
+on u.UsernameId = r.UsernameId
+join RecipeIngredient ri
+on r.RecipeId = ri.RecipeId
+group by r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories
+order by r.RecipeStatus desc
 /*
 Recipe details page:
     Show for a specific recipe (three result sets):

@@ -1,17 +1,30 @@
 create or alter procedure dbo.RecipeUpdate(
-    @RecipeId int output
+    @RecipeId int output,
     @UsernameId int,
     @CuisineId int,
-    @RecipeName varchar(),
-    @Calories int,
-    @Message varchar(500) = '' output
+    @RecipeName varchar(70),
+    @Calories int
 )
 as
 begin
-    declare @return int = 0 
 
     select @RecipeId = isnull(@RecipeId, 0)
 
+    if @RecipeId = 0
     begin
-        select 
+        insert Recipe(UsernameId, CuisineId, RecipeName, Calories)
+        values(@UsernameId, @CuisineId, @RecipeName, @Calories)
     end
+    else
+    begin
+        update Recipe
+        set
+        UsernameId = @UsernameId,
+        CuisineId = @CuisineId,
+        RecipeName = @RecipeName,
+        Calories = @Calories
+        where RecipeId = @RecipeId
+    end
+end 
+go
+

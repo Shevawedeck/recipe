@@ -19,7 +19,7 @@ namespace RecipeWinForms
             btnSearch.Click += BtnSearch_Click;
             gRecipe.CellDoubleClick += GRecipe_CellDoubleClick;
             btnNew.Click += BtnNew_Click;
-            WindowsFormUtility.FormatGridForSearchResults(gRecipe);
+            //WindowsFormUtility.FormatGridForSearchResults(gRecipe);
         }
 
         private void GRecipe_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)

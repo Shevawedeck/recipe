@@ -12,6 +12,7 @@ namespace RecipeWinForms
     public partial class frmRecipe : Form
     {
         DataTable dtrecipe;
+        BindingSource bindsource = new BindingSource();
         public frmRecipe()
         {
             InitializeComponent();
@@ -21,16 +22,17 @@ namespace RecipeWinForms
         public void ShowForm(int recipeid)
         {
             dtrecipe = Recipe.Load(recipeid);
+            bindsource.DataSource = dtrecipe;
             if (recipeid == 0) { dtrecipe.Rows.Add(); }
             DataTable dtcuisine = Recipe.GetCuisineList();
             DataTable dtusername = Recipe.GetUsernameList();
             WindowsFormUtility.SetListBinding(lstCuisineType, dtcuisine, dtrecipe, "Cuisine");
             WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtrecipe, "Username");
-            WindowsFormUtility.SetControlBinding(txtRecipeName, dtrecipe);
-            WindowsFormUtility.SetControlBinding(txtCalories, dtrecipe);
-            WindowsFormUtility.SetControlBinding(txtDateDrafted, dtrecipe);
-            WindowsFormUtility.SetControlBinding(txtDatePublished, dtrecipe);
-            WindowsFormUtility.SetControlBinding(txtRecipeImage, dtrecipe);
+            WindowsFormUtility.SetControlBinding(txtRecipeName, bindsource);
+            WindowsFormUtility.SetControlBinding(txtCalories, bindsource);
+            WindowsFormUtility.SetControlBinding(txtDateDrafted, bindsource);
+            WindowsFormUtility.SetControlBinding(txtDatePublished, bindsource);
+            WindowsFormUtility.SetControlBinding(txtRecipeImage, bindsource);
 
             this.Show();
         }
@@ -62,6 +64,7 @@ namespace RecipeWinForms
             try
             {
                 Recipe.Save(dtrecipe);
+                bindsource.ResetBindings(false);
             }
             catch (Exception ex)
             {
