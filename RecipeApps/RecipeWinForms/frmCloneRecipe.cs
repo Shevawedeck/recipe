@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace RecipeWinForms
+﻿namespace RecipeWinForms
 {
     public partial class frmCloneRecipe : Form
     {
         public frmCloneRecipe()
         {
             InitializeComponent();
+            btnClone.Click += BtnClone_Click;
+        }
+        private void BindForm()
+        {
+            //lstRecipe.DataSource = Recipe.Load(recipeid);
+        }
+        private void BtnClone_Click(object? sender, EventArgs e)
+        {
+            
         }
     }
 }

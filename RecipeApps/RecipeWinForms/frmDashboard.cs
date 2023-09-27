@@ -17,6 +17,7 @@ namespace RecipeWinForms
         private void LoadTable()
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeMealCookbookAmountGet");
+            SQLUtility.SetParamValue(cmd, "@All", 1);
             gData.DataSource = SQLUtility.GetDataTable(cmd);
             WindowsFormUtility.FormatGridForSearchResults(gData, "RecipeMealCookbookAmount");
         }

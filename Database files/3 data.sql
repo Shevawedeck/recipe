@@ -118,11 +118,11 @@ select 1, 'appetizer'
 union select 2, 'main course'
 union select 3, 'dessert'
 
-insert Meal(MealName, DateCreated, IsActive)
-select 'Summer Brunch', '6/5/20', 1
-union select 'A Royal Lunch', '8/2/19', 1
-union select 'Special Breakfast', '5/7/18', 1
-union select 'Breakfast Bash', '5/4/20', 1
+insert Meal(UsernameId, MealName, DateCreated, IsActive)
+select (select u.UsernameId from Username u where u.UsernameName = 'ssuss'), 'Summer Brunch', '6/5/20', 1
+union select (select u.UsernameId from Username u where u.UsernameName = 'ctepfer'), 'A Royal Lunch', '8/2/19', 1
+union select (select u.UsernameId from Username u where u.UsernameName = 'maga'), 'Special Breakfast', '5/7/18', 1
+union select (select u.UsernameId from Username u where u.UsernameName = 'eliyair'), 'Breakfast Bash', '5/4/20', 1
 
 insert Cookbook(UsernameId, CookbookName, Price, IsActive, DateCreated)
 select (select u.UsernameId from Username u where u.UsernameName = 'ctepfer'), 'Treats for Two', 30, 1, '5/12/23'

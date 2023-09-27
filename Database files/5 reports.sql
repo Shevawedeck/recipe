@@ -27,7 +27,7 @@ Recipe list page:
     In the resultset show the Recipe with its status, dates it was published and archived in mm/dd/yyyy format (blank if not archived), user, number of calories and number of ingredients.
     Tip: You'll need to use the convert function for the dates
 */
-select r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, NumOfIngredients = count(ri.IngredientId)
+select r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, NumIngredients = count(ri.IngredientId)
 from Recipe r
 join Username u
 on u.UsernameId = r.UsernameId
@@ -48,8 +48,45 @@ Recipe details page:
 Meal list page:
     For all active meals, show the meal name, user that created the meal, number of calories for the meal, number of courses, and number of recipes per each meal, sorted by name of meal
 */
-
-
+;
+with x as(
+    select m.MealName, NumCalories = sum(r.Calories)
+    from Meal m 
+    join MealCourse mc 
+    on mc.MealId = m.MealId
+    join MealCourseRecipe mcr 
+    on mcr.MealCourseId = mc.MealCourseId
+    join Recipe r 
+    on r.RecipeId = mcr.RecipeId
+    group by m.MealName
+), 
+y as(
+    select m.MealName, NumRecipes = count(*)
+    from Meal m 
+    join MealCourse mc 
+    on mc.MealId = m.MealId
+    join MealCourseRecipe mcr 
+    on mcr.MealCourseId = mc.MealCourseId
+    group by m.MealName
+), 
+z as(
+    select m.MealName, NumCourses = count(mc.CourseId)
+    from Meal m 
+    join MealCourse mc 
+    on m.MealId = mc.MealId
+    group by m.MealName
+)
+select m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), x.NumCalories, z.NumCourses, y.NumRecipes
+from Meal m 
+join x 
+on x.MealName = m.MealName
+join y 
+on y.MealName = x.MealName
+join z 
+on z.MealName = m.MealName
+join Username u 
+on u.UsernameId = m.UsernameId
+order by m.MealName
 /*
 Meal details page:
     Show for a specific meal:
@@ -69,7 +106,13 @@ Meal details page:
 Cookbook list page:
     Show all active cookbooks with author and number of recipes per book. Sorted by book name.
 */
-
+select c.CookbookName, Author = concat(u.FirstName, ' ', u.LastName), NumRecipes = count(cr.RecipeId), c.Price
+from Cookbook c
+join CookbookRecipe cr 
+on cr.CookbookId = c.CookbookId
+join Username u
+on c.UsernameId = u.UsernameId
+group by c.CookbookName, c.Price, u.FirstName, u.LastName
 
 /*
 Cookbook details page:

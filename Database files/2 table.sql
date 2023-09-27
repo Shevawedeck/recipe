@@ -103,6 +103,7 @@ create table dbo.Course(
 
 create table dbo.Meal(
     MealId int not null identity primary key,
+    UsernameId int not null constraint f_Meal_user_id foreign key references Username(UsernameId),
 -- SM Formatting tip: When having multiple constraints on single column, all should be on new line indented.
     MealName varchar(70) not null 
         constraint ck_Meal_name_cannot_be_blank check(MealName <> '') 
