@@ -54,20 +54,42 @@ where u.UsernameName = 'ssuss'
 --2) Sometimes we want to clone a recipe as a starting point and then edit it. For example we have a complex recipe (steps and ingredients) and want to make a modified version. 
 --Write the SQL that clones a specific recipe, add " - clone" to its name.
 -- SM -50% The point here is to add a recipe with all ingredients and steps, based on specific recipe in table. Just the name should be changed to recipename + " - clone".
-insert Recipe(UsernameId, RecipeName, Calories, DateDrafted, DatePublished, DateArchived)
-select (select u.UsernameId from Username u where u.UsernameName = 'eliyair'), 'Arugula Salad - clone', 100, '2/2/18', '3/3/18', null
+;with x as(
+	select r.RecipeName
+	from Recipe r 
+	where r.RecipeName = 'Arugula Salad'
+)
+insert Recipe(UsernameId, CuisineId, RecipeName, Calories, DateDrafted, DatePublished, DateArchived)
+select (select r.UsernameId from Recipe r where r.RecipeName = x.RecipeName), (select r.CuisineId from Recipe r where r.RecipeName = x.RecipeName), concat((x.RecipeName), ' - clone'), (select r.Calories from Recipe r where r.RecipeName = x.RecipeName), (select r.DateDrafted from Recipe r where r.RecipeName = x.RecipeName), (select r.DatePublished from Recipe r where r.RecipeName = x.RecipeName), (select r.DateArchived from Recipe r where r.RecipeName = x.RecipeName)
+from x
 
+;with x as(
+	select r.RecipeName
+	from Recipe r 
+	where r.RecipeName = 'Arugula Salad'
+)
 insert RecipeIngredient(RecipeId, IngredientId, MeasurementTypeId, Amount, SequenceNum)
-select (select r.RecipeId from Recipe r where r.RecipeName = 'Arugula Salad - clone'), (select i.IngredientId from Ingredient i where i.IngredientName = 'Arugula'), 
-    (select m.MeasurementTypeId from MeasurementType m where m.MeasurementTypeName = 'ounce'), 12, 1
-union select (select r.RecipeId from Recipe r where r.RecipeName = 'Arugula Salad - clone'), (select i.IngredientId from Ingredient i where i.IngredientName = 'Mango'),
-    null, 1, 2
-union select (select r.RecipeId from Recipe r where r.RecipeName = 'Arugula Salad - clone'), (select i.IngredientId from Ingredient i where i.IngredientName = 'Cucumber'),
-    null, 1, 3
+select (select r.RecipeId from Recipe r where r.RecipeName = concat(x.RecipeName, ' - clone')), i.IngredientId, ri.MeasurementTypeId, ri.Amount, ri.SequenceNum
+from x
+join Recipe r
+on x.RecipeName = r.RecipeName
+join RecipeIngredient ri 
+on r.RecipeId = ri.RecipeId 
+join Ingredient i
+on i.IngredientId = ri.IngredientId
 
+;with x as(
+	select r.RecipeName
+	from Recipe r 
+	where r.RecipeName = 'Arugula Salad'
+)
 insert Direction(RecipeId, SequenceNum, DirectionDesc)
-select (select r.RecipeId from Recipe r where r.RecipeName = 'Arugula Salad - clone'), 1, 'Dice all ingredients (except the arugula)'
-union select (select r.RecipeId from Recipe r where r.RecipeName = 'Arugula Salad - clone'), 2, 'Combine all ingredients'
+select (select r.RecipeId from Recipe r where r.RecipeName = concat(x.RecipeName, ' - clone')), d.SequenceNum, d.DirectionDesc
+from x
+join Recipe r 
+on x.RecipeName = r.RecipeName
+join Direction d 
+on d.RecipeId = r.RecipeId  
 /*
 3) We offer users an option to auto-create a recipe book containing all of their recipes. 
 Write a SQL script that creates the book for a specific user and fills it with their recipes.

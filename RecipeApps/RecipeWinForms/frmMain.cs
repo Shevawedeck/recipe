@@ -62,6 +62,7 @@ namespace RecipeWinForms
                 {
                     frmNewCookbook f = new();
                     newfrm = f;
+                    f.LoadForm(pkvalue);
                 }
                 else if (frmtype == typeof(frmCloneRecipe))
                 {
@@ -77,6 +78,12 @@ namespace RecipeWinForms
                 {
                     frmDataMaintenance f = new();
                     newfrm = f;
+                }
+                else if (frmtype == typeof(frmRecipeStatus))
+                {
+                    frmRecipeStatus f = new();
+                    newfrm = f;
+                    f.LoadForm(pkvalue);
                 }
                 if (newfrm != null)
                 {

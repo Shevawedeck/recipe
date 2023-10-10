@@ -11,7 +11,7 @@ namespace RecipeSystem
         public static DataTable LoadByRecipeId(int recipeid)
         {
             DataTable dt = new DataTable();
-            SqlCommand cmd = SQLUtility.GetSQLCommand("IngredientGet");
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeIngredientGet");
             cmd.Parameters["@RecipeId"].Value = recipeid;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;

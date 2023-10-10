@@ -1,4 +1,5 @@
 ﻿using CPUFramework;
+using RecipeSystem;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,13 +21,18 @@ namespace RecipeWinForms
             InitializeComponent();
             btnNewCookbook.Click += BtnNewCookbook_Click;
             LoadTable();
+            gCookbook.CellDoubleClick += GCookbook_CellDoubleClick;
         }
+
         private void LoadTable()
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("CookbookListGet");
             SQLUtility.SetParamValue(cmd, "@All", 1);
             gCookbook.DataSource = SQLUtility.GetDataTable(cmd);
             WindowsFormUtility.FormatGridForSearchResults(gCookbook, "CookbookList");
+            gCookbook.Columns["IsActive"].Visible = false;
+            gCookbook.Columns["DateCreated"].Visible = false;
+
         }
         private void ShowForm(Type frmtype)
         {
@@ -35,9 +41,26 @@ namespace RecipeWinForms
                 ((frmMain)this.MdiParent).OpenForm(frmtype);
             }
         }
+        private void ShowCookbookForm(int rowindex)
+        {
+            int id = 0;
+            if (rowindex > -1)
+            {
+                id = WindowsFormUtility.GetIdFromGrid(gCookbook, rowindex, "CookbookId");
+            }
+            if (this.MdiParent != null && this.MdiParent is frmMain)
+            {
+                ((frmMain)this.MdiParent).OpenForm(typeof(frmNewCookbook), id);
+            }
+        }
         private void BtnNewCookbook_Click(object? sender, EventArgs e)
         {
             ShowForm(typeof(frmNewCookbook));
         }
+        private void GCookbook_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            ShowCookbookForm(e.RowIndex);
+        }
+
     }
 }

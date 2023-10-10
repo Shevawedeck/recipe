@@ -30,9 +30,9 @@ namespace RecipeWinForms
             bindsource.DataSource = dtrecipe;
             if (recipeid == 0) { dtrecipe.Rows.Add(); }
             DataTable dtcuisine = Recipe.GetCuisineList();
-            //DataTable dtusername = Recipe.GetUsernameList();
+            DataTable dtusername = Recipe.GetUsernameList();
             WindowsFormUtility.SetListBinding(lstCuisine, dtcuisine, dtrecipe, "Cuisine");
-            // WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtrecipe, "Username");
+            WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtrecipe, "Username");
             WindowsFormUtility.SetControlBinding(txtRecipeName, bindsource);
             WindowsFormUtility.SetControlBinding(txtCalories, bindsource);
             WindowsFormUtility.SetControlBinding(txtDateDrafted, bindsource);
@@ -53,11 +53,18 @@ namespace RecipeWinForms
         }
         private void LoadIngredient()
         {
-            dtdirection = Direction.LoadByRecipeId(recipeid);
-            gSteps.Columns.Clear();
-            gSteps.DataSource = dtdirection;
+            dtingredients = Ingredient.LoadByRecipeId(recipeid);
+            gIngredients.Columns.Clear();
+            gIngredients.DataSource = dtingredients;
             WindowsFormUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
             WindowsFormUtility.FormatGridForEdit(gIngredients, "Ingredient");
+        }
+        private void ShowForm(Type frmtype)
+        {
+            if (this.MdiParent != null && this.MdiParent is frmMain)
+            {
+                ((frmMain)this.MdiParent).OpenForm(frmtype);
+            }
         }
         private void Delete()
         {
@@ -120,22 +127,30 @@ namespace RecipeWinForms
         private void DeleteDirection(int rowindex)
         {
             int id = WindowsFormUtility.GetIdFromGrid(gSteps, rowindex, "DirectionId");
-            if (id > 0)
+            var response = MessageBox.Show("Are you sure you want to delete this step?", "HeartyHearth", MessageBoxButtons.YesNo);
+            if (response == DialogResult.No)
             {
-                try
-                {
-                    Direction.Delete(id);
-                    LoadDirection();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, Application.ProductName);
-                }
+                return;
+            }
+            Application.UseWaitCursor = true;
+            if (id > 0)
+            try
+            {
+                Direction.Delete(id);
+                LoadDirection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName);
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
             }
             else if (id < gSteps.Rows.Count)
             {
                 gSteps.Rows.RemoveAt(rowindex);
-            }
+            }  
         }
         private void DeleteIngredient(int rowindex)
         {
@@ -181,7 +196,7 @@ namespace RecipeWinForms
 
         private void GIngredients_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-
+            DeleteIngredient(e.RowIndex);
         }
 
         private void BtnSaveSteps_Click(object? sender, EventArgs e)
@@ -229,7 +244,7 @@ namespace RecipeWinForms
         }
         private void BtnChangeStatus_Click(object? sender, EventArgs e)
         {
-            ((frmMain)this.MdiParent).OpenForm(typeof(frmRecipeStatus));
+            ShowForm(typeof(frmRecipeStatus));
         }
 
     }

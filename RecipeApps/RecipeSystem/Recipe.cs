@@ -27,6 +27,12 @@ namespace RecipeSystem
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
+        public static void Clone(int recipeid)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeClone");
+            SQLUtility.SetParamValue(cmd, "@RecipeId", recipeid);
+            SQLUtility.ExecuteSQL(cmd);
+        }
         public static DataTable GetCuisineList()
         {
             DataTable dt = new();

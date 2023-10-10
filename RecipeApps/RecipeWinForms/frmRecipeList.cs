@@ -21,13 +21,8 @@ namespace RecipeWinForms
             btnNewRecipe.Click += BtnNewRecipe_Click;
             LoadTable();
             gRecipeList.CellDoubleClick += GRecipeList_CellDoubleClick;
-           // this.BindForm();
         }
 
-        private void BindForm()
-        {
-            
-        }
 
         private void GRecipeList_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {

@@ -35,12 +35,12 @@
             lblPublished = new Label();
             lblStatusDates = new Label();
             lblArchived = new Label();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            btnDraft = new Button();
+            lblDateDrafted = new Label();
+            lblDatePublished = new Label();
+            lblDateArchived = new Label();
+            btnArchive = new Button();
             btnPublish = new Button();
-            button3 = new Button();
+            btnDraft = new Button();
             tblMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,10 +57,10 @@
             tblMain.Controls.Add(lblPublished, 2, 2);
             tblMain.Controls.Add(lblStatusDates, 0, 3);
             tblMain.Controls.Add(lblArchived, 3, 2);
-            tblMain.Controls.Add(label7, 1, 3);
-            tblMain.Controls.Add(label8, 2, 3);
-            tblMain.Controls.Add(label9, 3, 3);
-            tblMain.Controls.Add(button3, 3, 4);
+            tblMain.Controls.Add(lblDateDrafted, 1, 3);
+            tblMain.Controls.Add(lblDatePublished, 2, 3);
+            tblMain.Controls.Add(lblDateArchived, 3, 3);
+            tblMain.Controls.Add(btnArchive, 3, 4);
             tblMain.Controls.Add(btnPublish, 2, 4);
             tblMain.Controls.Add(btnDraft, 1, 4);
             tblMain.Dock = DockStyle.Fill;
@@ -139,43 +139,43 @@
             lblArchived.TabIndex = 6;
             lblArchived.Text = "Archived";
             // 
-            // label7
+            // lblDateDrafted
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(200, 280);
-            label7.Name = "label7";
-            label7.Size = new Size(50, 20);
-            label7.TabIndex = 7;
-            label7.Text = "label7";
+            lblDateDrafted.AutoSize = true;
+            lblDateDrafted.Location = new Point(200, 280);
+            lblDateDrafted.Name = "lblDateDrafted";
+            lblDateDrafted.Size = new Size(50, 20);
+            lblDateDrafted.TabIndex = 7;
+            lblDateDrafted.Text = "label7";
             // 
-            // label8
+            // lblDatePublished
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(305, 280);
-            label8.Name = "label8";
-            label8.Size = new Size(50, 20);
-            label8.TabIndex = 8;
-            label8.Text = "label8";
+            lblDatePublished.AutoSize = true;
+            lblDatePublished.Location = new Point(305, 280);
+            lblDatePublished.Name = "lblDatePublished";
+            lblDatePublished.Size = new Size(50, 20);
+            lblDatePublished.TabIndex = 8;
+            lblDatePublished.Text = "label8";
             // 
-            // label9
+            // lblDateArchived
             // 
-            label9.AutoSize = true;
-            label9.Location = new Point(412, 280);
-            label9.Name = "label9";
-            label9.Size = new Size(50, 20);
-            label9.TabIndex = 9;
-            label9.Text = "label9";
+            lblDateArchived.AutoSize = true;
+            lblDateArchived.Location = new Point(412, 280);
+            lblDateArchived.Name = "lblDateArchived";
+            lblDateArchived.Size = new Size(50, 20);
+            lblDateArchived.TabIndex = 9;
+            lblDateArchived.Text = "label9";
             // 
-            // btnDraft
+            // btnArchive
             // 
-            btnDraft.Anchor = AnchorStyles.None;
-            btnDraft.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            btnDraft.Location = new Point(202, 381);
-            btnDraft.Name = "btnDraft";
-            btnDraft.Size = new Size(94, 40);
-            btnDraft.TabIndex = 10;
-            btnDraft.Text = "Draft";
-            btnDraft.UseVisualStyleBackColor = true;
+            btnArchive.Anchor = AnchorStyles.Left;
+            btnArchive.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            btnArchive.Location = new Point(412, 381);
+            btnArchive.Name = "btnArchive";
+            btnArchive.Size = new Size(94, 40);
+            btnArchive.TabIndex = 12;
+            btnArchive.Text = "Archive";
+            btnArchive.UseVisualStyleBackColor = true;
             // 
             // btnPublish
             // 
@@ -188,16 +188,16 @@
             btnPublish.Text = "Publish";
             btnPublish.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnDraft
             // 
-            button3.Anchor = AnchorStyles.Left;
-            button3.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button3.Location = new Point(412, 381);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 40);
-            button3.TabIndex = 12;
-            button3.Text = "Archive";
-            button3.UseVisualStyleBackColor = true;
+            btnDraft.Anchor = AnchorStyles.None;
+            btnDraft.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDraft.Location = new Point(202, 381);
+            btnDraft.Name = "btnDraft";
+            btnDraft.Size = new Size(94, 40);
+            btnDraft.TabIndex = 10;
+            btnDraft.Text = "Draft";
+            btnDraft.UseVisualStyleBackColor = true;
             // 
             // frmRecipeStatus
             // 
@@ -221,10 +221,10 @@
         private Label lblPublished;
         private Label lblStatusDates;
         private Label lblArchived;
-        private Label label7;
-        private Label label8;
-        private Label label9;
-        private Button button3;
+        private Label lblDateDrafted;
+        private Label lblDatePublished;
+        private Label lblDateArchived;
+        private Button btnArchive;
         private Button btnPublish;
         private Button btnDraft;
     }
