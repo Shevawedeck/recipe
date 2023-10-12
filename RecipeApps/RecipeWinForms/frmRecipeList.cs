@@ -1,4 +1,5 @@
 ﻿using CPUFramework;
+using RecipeSystem;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,11 @@ namespace RecipeWinForms
             SQLUtility.SetParamValue(cmd, "@All", 1);
             gRecipeList.DataSource = SQLUtility.GetDataTable(cmd);
             WindowsFormUtility.FormatGridForSearchResults(gRecipeList, "Recipe");
+            gRecipeList.Columns["DateDrafted"].Visible = false;
+            gRecipeList.Columns["DateArchived"].Visible = false;
+            gRecipeList.Columns["DatePublished"].Visible = false;
+            gRecipeList.Columns["RecipeImage"].Visible = false;
+            //gRecipeList.Columns[""].Visible = false;
         }
         private void ShowRecipeForm(int rowindex)
         {

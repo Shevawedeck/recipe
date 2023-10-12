@@ -150,7 +150,7 @@
             lblDateCreated.Location = new Point(523, 122);
             lblDateCreated.Name = "lblDateCreated";
             lblDateCreated.Size = new Size(13, 20);
-            lblDateCreated.TabIndex = 7;
+            lblDateCreated.TabIndex = 9;
             lblDateCreated.Text = "l";
             // 
             // txtPrice
@@ -158,7 +158,7 @@
             txtPrice.Location = new Point(245, 125);
             txtPrice.Name = "txtPrice";
             txtPrice.Size = new Size(125, 27);
-            txtPrice.TabIndex = 9;
+            txtPrice.TabIndex = 8;
             // 
             // lblPrice
             // 
@@ -166,7 +166,7 @@
             lblPrice.Location = new Point(3, 122);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(41, 20);
-            lblPrice.TabIndex = 8;
+            lblPrice.TabIndex = 7;
             lblPrice.Text = "Price";
             // 
             // lblActive
@@ -183,7 +183,7 @@
             btnSaveRecipes.Location = new Point(3, 181);
             btnSaveRecipes.Name = "btnSaveRecipes";
             btnSaveRecipes.Size = new Size(94, 29);
-            btnSaveRecipes.TabIndex = 11;
+            btnSaveRecipes.TabIndex = 12;
             btnSaveRecipes.Text = "Save";
             btnSaveRecipes.UseVisualStyleBackColor = true;
             // 
@@ -197,7 +197,7 @@
             gRecipe.RowHeadersWidth = 51;
             gRecipe.RowTemplate.Height = 29;
             gRecipe.Size = new Size(794, 231);
-            gRecipe.TabIndex = 12;
+            gRecipe.TabIndex = 13;
             // 
             // ckbIsActive
             // 
@@ -205,7 +205,7 @@
             ckbIsActive.Location = new Point(245, 158);
             ckbIsActive.Name = "ckbIsActive";
             ckbIsActive.Size = new Size(18, 17);
-            ckbIsActive.TabIndex = 13;
+            ckbIsActive.TabIndex = 11;
             ckbIsActive.UseVisualStyleBackColor = true;
             // 
             // frmNewCookbook

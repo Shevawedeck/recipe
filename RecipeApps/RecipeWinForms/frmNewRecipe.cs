@@ -255,7 +255,6 @@ namespace RecipeWinForms
         private void BtnChangeStatus_Click(object? sender, EventArgs e)
         {
             ShowRecipeStatusForm();
-            //frmRecipeList.ShowRecipeForm(e.rowindex);
         }
 
     }

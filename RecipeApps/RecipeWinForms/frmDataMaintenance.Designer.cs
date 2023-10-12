@@ -73,7 +73,7 @@
             pnlOptButtons.Margin = new Padding(4);
             pnlOptButtons.Name = "pnlOptButtons";
             pnlOptButtons.Size = new Size(233, 486);
-            pnlOptButtons.TabIndex = 3;
+            pnlOptButtons.TabIndex = 1;
             // 
             // optUsername
             // 
@@ -150,7 +150,7 @@
             btnSave.Margin = new Padding(4, 4, 28, 4);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(129, 57);
-            btnSave.TabIndex = 0;
+            btnSave.TabIndex = 2;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             // 
@@ -164,7 +164,7 @@
             gData.RowHeadersWidth = 51;
             gData.RowTemplate.Height = 29;
             gData.Size = new Size(729, 486);
-            gData.TabIndex = 1;
+            gData.TabIndex = 0;
             // 
             // frmDataMaintenance
             // 

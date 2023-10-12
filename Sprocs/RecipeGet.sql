@@ -1,11 +1,17 @@
 create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @All bit = 0, @RecipeName varchar(50) = '')
 as
 begin
-    select r.RecipeId, r.UsernameId, r.RecipeId, r.RecipeName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipeImage
+    select r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, NumIngredients = count(ri.IngredientId), r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage
     from Recipe r
+    join Username u
+    on u.UsernameId = r.UsernameId
+    join RecipeIngredient ri
+    on r.RecipeId = ri.RecipeId
     where r.RecipeId = @RecipeId
     or @All = 1
     or (@RecipeName <> '' and r.RecipeName like '%' + @RecipeName + '%')
+    group by r.RecipeId, r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, r.UsernameId, r.CuisineId
+    order by r.RecipeStatus desc
 end
 go
 

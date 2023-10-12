@@ -64,11 +64,12 @@ create table dbo.Recipe(
     Calories int not null 
         constraint ck_Recipe_calories_must_be_greater_then_zero check(Calories > 0),
 -- SM Tip: If you just want to make sure that it's after 1950. Instead of adding full date to constraint, use year(column) > 1950
-    DateDrafted date not null constraint ck_Recipe_date_drafted_must_be_after_1950 check(year(DateDrafted) > 1950), 
+    DateDrafted date not null default getdate(),
+         constraint ck_Recipe_date_drafted_must_be_after_1950 check(year(DateDrafted) > 1950), 
     DatePublished date null,
     DateArchived date null,
 -- SM Tip: You're repeating "and DateArchived is null" twice. Use nested case like: case when... then case when... then... else... end else... end.
-    RecipeStatus as case when DatePublished is null and DateArchived is null then 'draft'
+    RecipeStatus as case when DatePublished is null and DateArchived is null then 'drafted'
                     when DatePublished is not null and DateArchived is null then 'published'
                     else 'archived'
                     end,

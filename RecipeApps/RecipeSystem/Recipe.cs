@@ -58,6 +58,15 @@ namespace RecipeSystem
             DataRow r = dtrecipe.Rows[0];
             SQLUtility.SaveDataRow(r, "RecipeUpdate");
         }
+        public static void SaveDate(DataTable dtrecipe)
+        {
+            if (dtrecipe.Rows.Count == 0)
+            {
+                throw new Exception("Cannot call Recipe save date method because there are no rows in the table.");
+            }
+            DataRow r = dtrecipe.Rows[0];
+            SQLUtility.SaveDataRow(r, "RecipeDateUpdate");
+        }
         public static void Delete(DataTable dtrecipe)
         {
             int id = (int)dtrecipe.Rows[0]["RecipeId"];

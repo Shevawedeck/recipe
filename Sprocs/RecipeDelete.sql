@@ -5,7 +5,7 @@ create or alter procedure dbo.RecipeDelete(
 as
 begin
     declare @return int = 0
-    
+   /* 
     if exists(select * from MealCourseRecipe m left join CookbookRecipe cr on cr.RecipeId = m.RecipeId where m.RecipeId = @RecipeId or cr.RecipeId = @RecipeId)
     begin
         select @return = 1, @Message = 'Cannot return recipe that is part of a meal or cookbook.'
@@ -16,7 +16,7 @@ begin
     begin
         select @return = 1, @Message = 'Can only return recipe that is archived for more than 30 days or is currently drafted.'
         goto finished
-    end
+    end */
    
     begin try
         begin tran

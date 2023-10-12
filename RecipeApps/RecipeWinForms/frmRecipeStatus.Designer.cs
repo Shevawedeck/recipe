@@ -92,11 +92,11 @@
             // 
             // lblStatus
             // 
-            lblStatus.Anchor = AnchorStyles.None;
+            lblStatus.Anchor = AnchorStyles.Right;
             lblStatus.AutoSize = true;
             tblMain.SetColumnSpan(lblStatus, 3);
             lblStatus.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            lblStatus.Location = new Point(120, 136);
+            lblStatus.Location = new Point(237, 136);
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(169, 31);
             lblStatus.TabIndex = 1;
@@ -129,7 +129,7 @@
             lblStatusDates.Location = new Point(103, 280);
             lblStatusDates.Name = "lblStatusDates";
             lblStatusDates.Size = new Size(91, 20);
-            lblStatusDates.TabIndex = 5;
+            lblStatusDates.TabIndex = 6;
             lblStatusDates.Text = "Status Dates";
             // 
             // lblArchived
@@ -139,7 +139,7 @@
             lblArchived.Location = new Point(412, 202);
             lblArchived.Name = "lblArchived";
             lblArchived.Size = new Size(81, 25);
-            lblArchived.TabIndex = 6;
+            lblArchived.TabIndex = 5;
             lblArchived.Text = "Archived";
             // 
             // btnArchive
@@ -181,7 +181,7 @@
             txtDateDrafted.Location = new Point(200, 283);
             txtDateDrafted.Name = "txtDateDrafted";
             txtDateDrafted.Size = new Size(99, 27);
-            txtDateDrafted.TabIndex = 13;
+            txtDateDrafted.TabIndex = 7;
             // 
             // txtDatePublished
             // 
@@ -189,7 +189,7 @@
             txtDatePublished.Location = new Point(305, 283);
             txtDatePublished.Name = "txtDatePublished";
             txtDatePublished.Size = new Size(101, 27);
-            txtDatePublished.TabIndex = 14;
+            txtDatePublished.TabIndex = 8;
             // 
             // txtDateArchived
             // 
@@ -197,15 +197,16 @@
             txtDateArchived.Location = new Point(412, 283);
             txtDateArchived.Name = "txtDateArchived";
             txtDateArchived.Size = new Size(125, 27);
-            txtDateArchived.TabIndex = 15;
+            txtDateArchived.TabIndex = 9;
             // 
             // lblRecipeStatus
             // 
+            lblRecipeStatus.Anchor = AnchorStyles.Left;
             lblRecipeStatus.AutoSize = true;
-            lblRecipeStatus.Location = new Point(412, 101);
+            lblRecipeStatus.Location = new Point(412, 141);
             lblRecipeStatus.Name = "lblRecipeStatus";
             lblRecipeStatus.Size = new Size(50, 20);
-            lblRecipeStatus.TabIndex = 16;
+            lblRecipeStatus.TabIndex = 2;
             lblRecipeStatus.Text = "label1";
             // 
             // frmRecipeStatus

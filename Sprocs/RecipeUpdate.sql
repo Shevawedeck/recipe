@@ -4,11 +4,11 @@ create or alter procedure dbo.RecipeUpdate(
     @CuisineId int,
     @RecipeName varchar(70),
     @Calories int,
-    @DateDrafted date,
-    @DatePublished date,
-    @DateArchived date,
-    @RecipeStatus varchar(10),
-    @RecipeImage varchar(150)
+    @DateDrafted date = null output,
+    @DatePublished date = null output,
+    @DateArchived date = null output,
+    @RecipeStatus varchar(10) = '' output,
+    @RecipeImage varchar(150) = '' output
 )
 as
 begin
@@ -16,8 +16,8 @@ begin
 
     if @RecipeId = 0
     begin
-        insert Recipe(UsernameId, CuisineId, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipeImage)
-        values(@UsernameId, @CuisineId, @RecipeName, @Calories, @DateDrafted, @DatePublished, @DateArchived, @RecipeStatus, @RecipeImage)
+        insert Recipe(UsernameId, CuisineId, RecipeName, Calories)
+        values(@UsernameId, @CuisineId, @RecipeName, @Calories)
     end
     else
     begin
@@ -29,9 +29,7 @@ begin
         Calories = @Calories,
         DateDrafted = @DateDrafted,
         DatePublished = @DatePublished,
-        DateArchived = @DateArchived,
-        RecipeStatus = @RecipeStatus,
-        RecipeImage = @RecipeImage
+        DateArchived = @DateArchived
         where RecipeId = @RecipeId
     end
 end 

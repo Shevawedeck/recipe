@@ -29,13 +29,12 @@
         private void InitializeComponent()
         {
             mnuMain = new MenuStrip();
-            tsMain = new ToolStrip();
             mnuFile = new ToolStripMenuItem();
+            mnuFileDashboard = new ToolStripMenuItem();
             mnuRecipes = new ToolStripMenuItem();
             mnuRecipesList = new ToolStripMenuItem();
             mnuRecipesNew = new ToolStripMenuItem();
             mnuRecipesClone = new ToolStripMenuItem();
-            mnuFileDashboard = new ToolStripMenuItem();
             mnuMeals = new ToolStripMenuItem();
             mnuMealsList = new ToolStripMenuItem();
             mnuCookbooks = new ToolStripMenuItem();
@@ -45,6 +44,7 @@
             mnuDataMaintenance = new ToolStripMenuItem();
             mnuDataMaintenanceEdit = new ToolStripMenuItem();
             mnuWindows = new ToolStripMenuItem();
+            tsMain = new ToolStrip();
             mnuMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,17 +57,8 @@
             mnuMain.Name = "mnuMain";
             mnuMain.Padding = new Padding(8, 3, 0, 3);
             mnuMain.Size = new Size(1100, 38);
-            mnuMain.TabIndex = 0;
+            mnuMain.TabIndex = 1;
             mnuMain.Text = "menuStrip1";
-            // 
-            // tsMain
-            // 
-            tsMain.ImageScalingSize = new Size(20, 20);
-            tsMain.Location = new Point(0, 38);
-            tsMain.Name = "tsMain";
-            tsMain.Size = new Size(1100, 25);
-            tsMain.TabIndex = 1;
-            tsMain.Text = "toolStrip1";
             // 
             // mnuFile
             // 
@@ -76,6 +67,12 @@
             mnuFile.Name = "mnuFile";
             mnuFile.Size = new Size(56, 32);
             mnuFile.Text = "File";
+            // 
+            // mnuFileDashboard
+            // 
+            mnuFileDashboard.Name = "mnuFileDashboard";
+            mnuFileDashboard.Size = new Size(194, 32);
+            mnuFileDashboard.Text = "Dashboard";
             // 
             // mnuRecipes
             // 
@@ -102,12 +99,6 @@
             mnuRecipesClone.Size = new Size(225, 32);
             mnuRecipesClone.Text = "Clone a Recipe";
             // 
-            // mnuFileDashboard
-            // 
-            mnuFileDashboard.Name = "mnuFileDashboard";
-            mnuFileDashboard.Size = new Size(224, 32);
-            mnuFileDashboard.Text = "Dashboard";
-            // 
             // mnuMeals
             // 
             mnuMeals.DropDownItems.AddRange(new ToolStripItem[] { mnuMealsList });
@@ -118,7 +109,7 @@
             // mnuMealsList
             // 
             mnuMealsList.Name = "mnuMealsList";
-            mnuMealsList.Size = new Size(224, 32);
+            mnuMealsList.Size = new Size(127, 32);
             mnuMealsList.Text = "List";
             // 
             // mnuCookbooks
@@ -156,7 +147,7 @@
             // mnuDataMaintenanceEdit
             // 
             mnuDataMaintenanceEdit.Name = "mnuDataMaintenanceEdit";
-            mnuDataMaintenanceEdit.Size = new Size(224, 32);
+            mnuDataMaintenanceEdit.Size = new Size(178, 32);
             mnuDataMaintenanceEdit.Text = "Edit Data";
             // 
             // mnuWindows
@@ -164,6 +155,15 @@
             mnuWindows.Name = "mnuWindows";
             mnuWindows.Size = new Size(107, 32);
             mnuWindows.Text = "Windows";
+            // 
+            // tsMain
+            // 
+            tsMain.ImageScalingSize = new Size(20, 20);
+            tsMain.Location = new Point(0, 38);
+            tsMain.Name = "tsMain";
+            tsMain.Size = new Size(1100, 25);
+            tsMain.TabIndex = 1;
+            tsMain.Text = "toolStrip1";
             // 
             // frmMain
             // 
@@ -175,7 +175,7 @@
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             IsMdiContainer = true;
             MainMenuStrip = mnuMain;
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "frmMain";
             Text = "Hearty Hearth";
             mnuMain.ResumeLayout(false);

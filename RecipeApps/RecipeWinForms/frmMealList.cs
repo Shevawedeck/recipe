@@ -22,10 +22,13 @@ namespace RecipeWinForms
         }
         private void LoadTable()
         {
-            SqlCommand cmd = SQLUtility.GetSQLCommand("MealListGet");
+            SqlCommand cmd = SQLUtility.GetSQLCommand("MealGet");
             SQLUtility.SetParamValue(cmd, "@All", 1);
             gMeal.DataSource = SQLUtility.GetDataTable(cmd);
-            WindowsFormUtility.FormatGridForSearchResults(gMeal, "MealList");
+            WindowsFormUtility.FormatGridForSearchResults(gMeal, "Meal");
+            gMeal.Columns["DateCreated"].Visible = false;
+            gMeal.Columns["IsActive"].Visible = false;
+            gMeal.Columns["MealImage"].Visible = false;
         }
     }
 }
