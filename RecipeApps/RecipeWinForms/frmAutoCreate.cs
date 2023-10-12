@@ -20,11 +20,11 @@ namespace RecipeWinForms
         }
         private void BindData()
         {
-            WindowsFormUtility.SetListBinding(lstUsername, DataMaintenance.GetDataList("Username"), null, "Username");
+            WindowsFormUtility.SetListBinding(lstUsernameName, DataMaintenance.GetDataList("Username"), null, "Username");
         }
         private void CreateCookbook()
         {
-            int usernameid = WindowsFormUtility.GetIdFromComboBox(lstUsername);
+            int usernameid = WindowsFormUtility.GetIdFromComboBox(lstUsernameName);
             Cursor = Cursors.WaitCursor;
             try
             {

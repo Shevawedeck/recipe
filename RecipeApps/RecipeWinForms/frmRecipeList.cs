@@ -22,13 +22,6 @@ namespace RecipeWinForms
             LoadTable();
             gRecipeList.CellDoubleClick += GRecipeList_CellDoubleClick;
         }
-
-
-        private void GRecipeList_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
-        {
-            ShowRecipeForm(e.RowIndex);
-        }
-
         private void LoadTable()
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
@@ -51,6 +44,10 @@ namespace RecipeWinForms
         private void BtnNewRecipe_Click(object? sender, EventArgs e)
         {
             ShowRecipeForm(-1);
+        }
+        private void GRecipeList_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            ShowRecipeForm(e.RowIndex);
         }
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             tblMain = new TableLayoutPanel();
-            lstUsername = new ComboBox();
+            lstUsernameName = new ComboBox();
             btnCreateCookbook = new Button();
             tblMain.SuspendLayout();
             SuspendLayout();
@@ -39,7 +39,7 @@
             tblMain.ColumnCount = 2;
             tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 310F));
-            tblMain.Controls.Add(lstUsername, 0, 0);
+            tblMain.Controls.Add(lstUsernameName, 0, 0);
             tblMain.Controls.Add(btnCreateCookbook, 1, 0);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
@@ -49,16 +49,16 @@
             tblMain.Size = new Size(597, 269);
             tblMain.TabIndex = 0;
             // 
-            // lstUsername
+            // lstUsernameName
             // 
-            lstUsername.Anchor = AnchorStyles.None;
-            lstUsername.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            lstUsername.FormattingEnabled = true;
-            lstUsername.Location = new Point(41, 115);
-            lstUsername.Name = "lstUsername";
-            lstUsername.Size = new Size(205, 39);
-            lstUsername.TabIndex = 0;
-            lstUsername.Text = "Select a User";
+            lstUsernameName.Anchor = AnchorStyles.None;
+            lstUsernameName.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            lstUsernameName.FormattingEnabled = true;
+            lstUsernameName.Location = new Point(41, 115);
+            lstUsernameName.Name = "lstUsernameName";
+            lstUsernameName.Size = new Size(205, 39);
+            lstUsernameName.TabIndex = 0;
+            lstUsernameName.Text = "Select a User";
             // 
             // btnCreateCookbook
             // 
@@ -88,7 +88,7 @@
         #endregion
 
         private TableLayoutPanel tblMain;
-        private ComboBox lstUsername;
+        private ComboBox lstUsernameName;
         private Button btnCreateCookbook;
     }
 }

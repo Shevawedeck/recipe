@@ -24,8 +24,9 @@ namespace RecipeWinForms
             mnuCookbookNew.Click += MnuCookbookNew_Click;
             mnuCookbookAuto.Click += MnuCookbookAuto_Click;
             mnuDataMaintenanceEdit.Click += MnuDataMaintenanceEdit_Click;
+            mnuWindows.Click += MnuWindows_Click;
+            this.Shown += FrmMain_Shown;
         }
-
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
             bool b = WindowsFormUtility.IsFormOpen(frmtype);
@@ -105,6 +106,11 @@ namespace RecipeWinForms
         {
             WindowsFormUtility.SetUpNav(tsMain);
         }
+        private void MnuWindows_Click(object? sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileVertical);
+        }
+
         private void MnuFileDashboard_Click(object? sender, EventArgs e)
         {
             OpenForm(typeof(frmDashboard));
@@ -149,6 +155,9 @@ namespace RecipeWinForms
         {
             OpenForm(typeof(frmNewRecipe));
         }
-
+        private void FrmMain_Shown(object? sender, EventArgs e)
+        {
+            OpenForm(typeof(frmDashboard));
+        }
     }
 }

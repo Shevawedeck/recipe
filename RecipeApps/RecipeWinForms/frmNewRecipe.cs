@@ -31,7 +31,7 @@ namespace RecipeWinForms
             if (recipeid == 0) { dtrecipe.Rows.Add(); }
             DataTable dtcuisine = Recipe.GetCuisineList();
             DataTable dtusername = Recipe.GetUsernameList();
-            WindowsFormUtility.SetListBinding(lstCuisine, dtcuisine, dtrecipe, "Cuisine");
+            WindowsFormUtility.SetListBinding(lstCuisineType, dtcuisine, dtrecipe, "Cuisine");
             WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtrecipe, "Username");
             WindowsFormUtility.SetControlBinding(txtRecipeName, bindsource);
             WindowsFormUtility.SetControlBinding(txtCalories, bindsource);
@@ -134,23 +134,23 @@ namespace RecipeWinForms
             }
             Application.UseWaitCursor = true;
             if (id > 0)
-            try
-            {
-                Direction.Delete(id);
-                LoadDirection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Application.ProductName);
-            }
-            finally
-            {
-                Application.UseWaitCursor = false;
-            }
+                try
+                {
+                    Direction.Delete(id);
+                    LoadDirection();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ProductName);
+                }
+                finally
+                {
+                    Application.UseWaitCursor = false;
+                }
             else if (id < gSteps.Rows.Count)
             {
                 gSteps.Rows.RemoveAt(rowindex);
-            }  
+            }
         }
         private void DeleteIngredient(int rowindex)
         {
@@ -178,6 +178,7 @@ namespace RecipeWinForms
             btnDelete.Enabled = b;
             btnSaveIngredients.Enabled = b;
             btnSaveSteps.Enabled = b;
+            //btnSaveRecipe.Enabled = b;
         }
         private string GetRecipeDesc()
         {
@@ -189,6 +190,16 @@ namespace RecipeWinForms
             }
             return value;
         }
+        private void ShowRecipeStatusForm()
+        {
+            int id = 0;
+            id = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeId");
+            this.Tag = id;
+            if (this.MdiParent != null && this.MdiParent is frmMain)
+            {
+                ((frmMain)this.MdiParent).OpenForm(typeof(frmRecipeStatus), id);
+            }
+        }
         private void GSteps_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             DeleteDirection(e.RowIndex);
@@ -198,7 +209,6 @@ namespace RecipeWinForms
         {
             DeleteIngredient(e.RowIndex);
         }
-
         private void BtnSaveSteps_Click(object? sender, EventArgs e)
         {
             SaveOther(dtdirection);
@@ -244,7 +254,8 @@ namespace RecipeWinForms
         }
         private void BtnChangeStatus_Click(object? sender, EventArgs e)
         {
-            ShowForm(typeof(frmRecipeStatus));
+            ShowRecipeStatusForm();
+            //frmRecipeList.ShowRecipeForm(e.rowindex);
         }
 
     }

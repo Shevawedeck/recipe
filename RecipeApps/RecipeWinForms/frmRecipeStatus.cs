@@ -6,6 +6,7 @@ namespace RecipeWinForms
     {
         private enum StatusEnum { Drafted, Archived, Published }
         StatusEnum currentstatus = StatusEnum.Drafted;
+        DataTable dtrecipe = new();
         public frmRecipeStatus()
         {
             InitializeComponent();
@@ -16,16 +17,19 @@ namespace RecipeWinForms
         public void LoadForm(int recipeid)
         {
             this.Tag = recipeid;
-            DataTable dtrecipe = new();
             BindingSource bindsource = new();
+            dtrecipe = Recipe.Load(recipeid);
             bindsource.DataSource = dtrecipe;
-            DataTable dt = Recipe.Load(recipeid);
-            WindowsFormUtility.SetControlBinding(lblDateDrafted, bindsource);
-            WindowsFormUtility.SetControlBinding(lblDatePublished, bindsource);
-            WindowsFormUtility.SetControlBinding(lblDateArchived, bindsource);
+            WindowsFormUtility.SetControlBinding(txtDateDrafted, bindsource);
+            WindowsFormUtility.SetControlBinding(txtDatePublished, bindsource);
+            WindowsFormUtility.SetControlBinding(txtDateArchived, bindsource);
+            WindowsFormUtility.SetControlBinding(lblRecipeStatus, bindsource);
+            WindowsFormUtility.SetControlBinding(lblRecipeName, bindsource);
         }
-        private void ChangeStatus()
+        private void ChangeStatus(Button btn)
         {
+            Recipe.Save(dtrecipe);
+
 
         }
         private void EnableDisable()
@@ -42,6 +46,10 @@ namespace RecipeWinForms
                     btnPublish.Enabled = false;
                     break;
             }
+        }
+        private void ChangeStatus()
+        {
+
         }
         private void BtnArchive_Click(object? sender, EventArgs e)
         {

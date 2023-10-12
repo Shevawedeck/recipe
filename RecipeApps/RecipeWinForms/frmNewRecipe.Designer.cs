@@ -52,8 +52,8 @@
             txtDateDrafted = new TextBox();
             txtDatePublished = new TextBox();
             txtDateArchived = new TextBox();
-            txtCurrentStatus = new TextBox();
-            lstCuisine = new ComboBox();
+            txtRecipeStatus = new TextBox();
+            lstCuisineType = new ComboBox();
             txtRecipeName = new TextBox();
             txtCalories = new TextBox();
             lblUsername = new Label();
@@ -90,8 +90,8 @@
             tblMain.Controls.Add(txtDateDrafted, 1, 7);
             tblMain.Controls.Add(txtDatePublished, 2, 7);
             tblMain.Controls.Add(txtDateArchived, 3, 7);
-            tblMain.Controls.Add(txtCurrentStatus, 1, 5);
-            tblMain.Controls.Add(lstCuisine, 1, 2);
+            tblMain.Controls.Add(txtRecipeStatus, 1, 5);
+            tblMain.Controls.Add(lstCuisineType, 1, 2);
             tblMain.Controls.Add(txtRecipeName, 1, 1);
             tblMain.Controls.Add(txtCalories, 1, 4);
             tblMain.Controls.Add(lblUsername, 0, 3);
@@ -333,6 +333,7 @@
             // txtDatePublished
             // 
             txtDatePublished.Anchor = AnchorStyles.Top;
+            txtDatePublished.Enabled = false;
             txtDatePublished.Location = new Point(494, 251);
             txtDatePublished.Name = "txtDatePublished";
             txtDatePublished.Size = new Size(80, 30);
@@ -340,29 +341,31 @@
             // 
             // txtDateArchived
             // 
+            txtDateArchived.Enabled = false;
             txtDateArchived.Location = new Point(608, 251);
             txtDateArchived.Name = "txtDateArchived";
             txtDateArchived.Size = new Size(79, 30);
             txtDateArchived.TabIndex = 14;
             // 
-            // txtCurrentStatus
+            // txtRecipeStatus
             // 
-            txtCurrentStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            tblMain.SetColumnSpan(txtCurrentStatus, 3);
-            txtCurrentStatus.Location = new Point(466, 190);
-            txtCurrentStatus.Name = "txtCurrentStatus";
-            txtCurrentStatus.Size = new Size(276, 30);
-            txtCurrentStatus.TabIndex = 15;
+            txtRecipeStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            tblMain.SetColumnSpan(txtRecipeStatus, 3);
+            txtRecipeStatus.Enabled = false;
+            txtRecipeStatus.Location = new Point(466, 190);
+            txtRecipeStatus.Name = "txtRecipeStatus";
+            txtRecipeStatus.Size = new Size(276, 30);
+            txtRecipeStatus.TabIndex = 15;
             // 
-            // lstCuisine
+            // lstCuisineType
             // 
-            lstCuisine.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            tblMain.SetColumnSpan(lstCuisine, 3);
-            lstCuisine.FormattingEnabled = true;
-            lstCuisine.Location = new Point(466, 83);
-            lstCuisine.Name = "lstCuisine";
-            lstCuisine.Size = new Size(276, 31);
-            lstCuisine.TabIndex = 16;
+            lstCuisineType.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            tblMain.SetColumnSpan(lstCuisineType, 3);
+            lstCuisineType.FormattingEnabled = true;
+            lstCuisineType.Location = new Point(466, 83);
+            lstCuisineType.Name = "lstCuisineType";
+            lstCuisineType.Size = new Size(276, 31);
+            lstCuisineType.TabIndex = 16;
             // 
             // txtRecipeName
             // 
@@ -449,8 +452,8 @@
         private TextBox txtDateDrafted;
         private TextBox txtDatePublished;
         private TextBox txtDateArchived;
-        private TextBox txtCurrentStatus;
-        private ComboBox lstCuisine;
+        private TextBox txtRecipeStatus;
+        private ComboBox lstCuisineType;
         private TextBox txtRecipeName;
         private TextBox txtCalories;
         private Label lblUsername;

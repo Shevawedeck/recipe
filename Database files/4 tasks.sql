@@ -3,8 +3,8 @@
 
 --1) Sometimes when a staff member is fired. We need to eradicate everything from that user in our system. Write the SQL to delete a specific user and all the user's related records.
 -- SM -50% Yes this would delete this specific user. But what about the meals? What about if this user created recipes and other users used it for their meals/cookbooks?
-delete ri 
-from RecipeIngredient ri 
+delete cr
+from CookbookRecipe cr
 join Recipe r
 on r.RecipeId = r.RecipeId
 join Username u 
@@ -19,19 +19,32 @@ join Username u
 on u.UsernameId = r.UsernameId
 where u.UsernameName = 'ssuss'
 
-delete cr
-from CookbookRecipe cr
+delete mc 
+from MealCourse mc 
+join Meal m 
+on m.MealId = mc.MealId
+join Username u 
+on m.UsernameId = u.UsernameId
+where u.UsernameName = 'ssuss'
+
+delete ri 
+from RecipeIngredient ri 
 join Recipe r
 on r.RecipeId = r.RecipeId
 join Username u 
 on u.UsernameId = r.UsernameId
 where u.UsernameName = 'ssuss'
 
-
 delete c
 from Cookbook c
 join Username u 
 on c.UsernameId = u.UsernameId
+where u.UsernameName = 'ssuss'
+
+delete m 
+from Meal m 
+join Username u 
+on m.UsernameId = u.UsernameId
 where u.UsernameName = 'ssuss'
 
 delete d

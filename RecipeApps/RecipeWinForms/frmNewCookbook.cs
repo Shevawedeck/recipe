@@ -27,11 +27,11 @@ namespace RecipeWinForms
             bindsource.DataSource = dtcookbook;
             if (cookbookid == 0) { dtcookbook.Rows.Add(); }
             DataTable dtusername = Cookbook.GetUsernameList();
-            WindowsFormUtility.SetListBinding(lstUser, dtusername, dtcookbook, "Username");
+            WindowsFormUtility.SetListBinding(lstUsernameName, dtusername, dtcookbook, "Username");
             WindowsFormUtility.SetControlBinding(txtCookbookName, bindsource);
             WindowsFormUtility.SetControlBinding(txtPrice, bindsource);
             WindowsFormUtility.SetControlBinding(lblDateCreated, bindsource);
-            WindowsFormUtility.SetControlBinding(ckActive, bindsource);
+            WindowsFormUtility.SetControlBinding(ckbIsActive, bindsource);
             this.Text = GetCookbookDesc();
             LoadCookbookRecipes();
             SetButtonsEnabledBasedOnNew();
@@ -48,7 +48,7 @@ namespace RecipeWinForms
             dtcookbookrecipe = Cookbook.LoadCookbookRecipeByCookbookId(cookbookid);
             gRecipe.Columns.Clear();
             gRecipe.DataSource = dtcookbookrecipe;
-            WindowsFormUtility.AddComboBoxToGrid(gRecipe,DataMaintenance.GetDataList("Recipe"), "Recipe", "RecipeName");
+            WindowsFormUtility.AddComboBoxToGrid(gRecipe, DataMaintenance.GetDataList("Recipe"), "Recipe", "RecipeName");
             WindowsFormUtility.AddDeleteButtonToGrid(gRecipe, deletecolname);
             WindowsFormUtility.FormatGridForEdit(gRecipe, "CookbookRecipe");
         }
@@ -162,12 +162,10 @@ namespace RecipeWinForms
         {
             SaveCookbookRecipe();
         }
-
         private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
         }
-
         private void BtnDelete_Click(object? sender, EventArgs e)
         {
             Delete();

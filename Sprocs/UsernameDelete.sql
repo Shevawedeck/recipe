@@ -6,17 +6,53 @@ as
 begin
 	declare @return int = 0
 
-    if exists(select * from Recipe r join Meal m on m.UsernameId = r.UsernameId where r.UsernameId = @UsernameId or m.UsernameId = @UsernameId)
-    begin
-        select @return = 1, @Message = 'Are you sure you want to delete this user and all related recipes, meals and cookbooks?'
-        goto finished
-    end
-
 	select @UsernameId = isnull(@UsernameId,0)
 
-    delete Recipe where UsernameId = @UsernameId
-    delete Meal where UsernameId = @UsernameId 
-	delete Username where UsernameId = @UsernameId
+    delete cr
+    from CookbookRecipe cr
+    join Recipe r
+    on r.RecipeId = r.RecipeId
+    where r.UsernameId = @UsernameId
+    
+    delete mcr
+    from MealCourseRecipe mcr
+    join Recipe r
+    on r.RecipeId = r.RecipeId
+    where r.UsernameId = @UsernameId
+    
+    delete mc 
+    from MealCourse mc 
+    join Meal m 
+    on m.MealId = mc.MealId
+    where m.UsernameId = @UsernameId
+    
+    delete ri 
+    from RecipeIngredient ri 
+    join Recipe r
+    on r.RecipeId = r.RecipeId
+    where r.UsernameId = @UsernameId
+    
+    delete c
+    from Cookbook c
+    where c.UsernameId = @UsernameId
+    
+    delete m 
+    from Meal m 
+    where m.UsernameId = @UsernameId
+    
+    delete d
+    from Direction d
+    join Recipe r
+    on r.RecipeId = r.RecipeId
+    where r.UsernameId = @UsernameId
+    
+    delete r
+    from Recipe r
+    where r.UsernameId = @UsernameId
+    
+    delete u
+    from Username u
+    where u.UsernameId = @UsernameId
 
     finished:
 	return @return

@@ -65,7 +65,13 @@ namespace RecipeWinForms
         }
         private void Delete(int rowindex)
         {
+            var response = MessageBox.Show($"Are you sure you want to delete this {currenttabletype.ToString()} and all related records?", "HeartyHearth", MessageBoxButtons.YesNo);
             int id = WindowsFormUtility.GetIdFromGrid(gData, rowindex, currenttabletype.ToString() + "Id");
+            if (response == DialogResult.No)
+            {
+                return;
+            }
+            Application.UseWaitCursor = true;
             if (id != 0)
             {
                 try
@@ -76,6 +82,10 @@ namespace RecipeWinForms
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, Application.ProductName);
+                }
+                finally
+                {
+                    Application.UseWaitCursor = false;
                 }
             }
             else if (id == 0 && rowindex < gData.Rows.Count)

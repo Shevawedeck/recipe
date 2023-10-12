@@ -34,15 +34,15 @@
             lblCookbookName = new Label();
             txtCookbookName = new TextBox();
             lblUser = new Label();
-            lstUser = new ComboBox();
+            lstUsernameName = new ComboBox();
             lblDateLabel = new Label();
             lblDateCreated = new Label();
-            lblPrice = new Label();
             txtPrice = new TextBox();
+            lblPrice = new Label();
             lblActive = new Label();
             btnSaveRecipes = new Button();
             gRecipe = new DataGridView();
-            ckActive = new CheckBox();
+            ckbIsActive = new CheckBox();
             tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gRecipe).BeginInit();
             SuspendLayout();
@@ -58,7 +58,7 @@
             tblMain.Controls.Add(lblCookbookName, 0, 1);
             tblMain.Controls.Add(txtCookbookName, 1, 1);
             tblMain.Controls.Add(lblUser, 0, 2);
-            tblMain.Controls.Add(lstUser, 1, 2);
+            tblMain.Controls.Add(lstUsernameName, 1, 2);
             tblMain.Controls.Add(lblDateLabel, 2, 3);
             tblMain.Controls.Add(lblDateCreated, 2, 4);
             tblMain.Controls.Add(txtPrice, 1, 4);
@@ -66,7 +66,7 @@
             tblMain.Controls.Add(lblActive, 0, 5);
             tblMain.Controls.Add(btnSaveRecipes, 0, 6);
             tblMain.Controls.Add(gRecipe, 0, 7);
-            tblMain.Controls.Add(ckActive, 1, 5);
+            tblMain.Controls.Add(ckbIsActive, 1, 5);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
             tblMain.Name = "tblMain";
@@ -126,19 +126,19 @@
             lblUser.TabIndex = 4;
             lblUser.Text = "User";
             // 
-            // lstUser
+            // lstUsernameName
             // 
-            tblMain.SetColumnSpan(lstUser, 2);
-            lstUser.FormattingEnabled = true;
-            lstUser.Location = new Point(245, 71);
-            lstUser.Name = "lstUser";
-            lstUser.Size = new Size(390, 28);
-            lstUser.TabIndex = 5;
+            tblMain.SetColumnSpan(lstUsernameName, 2);
+            lstUsernameName.FormattingEnabled = true;
+            lstUsernameName.Location = new Point(245, 71);
+            lstUsernameName.Name = "lstUsernameName";
+            lstUsernameName.Size = new Size(390, 28);
+            lstUsernameName.TabIndex = 5;
             // 
             // lblDateLabel
             // 
             lblDateLabel.AutoSize = true;
-            lblDateLabel.Location = new Point(523, 109);
+            lblDateLabel.Location = new Point(523, 102);
             lblDateLabel.Name = "lblDateLabel";
             lblDateLabel.Size = new Size(97, 20);
             lblDateLabel.TabIndex = 6;
@@ -147,32 +147,32 @@
             // lblDateCreated
             // 
             lblDateCreated.AutoSize = true;
-            lblDateCreated.Location = new Point(523, 129);
+            lblDateCreated.Location = new Point(523, 122);
             lblDateCreated.Name = "lblDateCreated";
             lblDateCreated.Size = new Size(13, 20);
             lblDateCreated.TabIndex = 7;
             lblDateCreated.Text = "l";
             // 
+            // txtPrice
+            // 
+            txtPrice.Location = new Point(245, 125);
+            txtPrice.Name = "txtPrice";
+            txtPrice.Size = new Size(125, 27);
+            txtPrice.TabIndex = 9;
+            // 
             // lblPrice
             // 
             lblPrice.AutoSize = true;
-            lblPrice.Location = new Point(3, 129);
+            lblPrice.Location = new Point(3, 122);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(41, 20);
             lblPrice.TabIndex = 8;
             lblPrice.Text = "Price";
             // 
-            // txtPrice
-            // 
-            txtPrice.Location = new Point(245, 132);
-            txtPrice.Name = "txtPrice";
-            txtPrice.Size = new Size(125, 27);
-            txtPrice.TabIndex = 9;
-            // 
             // lblActive
             // 
             lblActive.AutoSize = true;
-            lblActive.Location = new Point(3, 162);
+            lblActive.Location = new Point(3, 155);
             lblActive.Name = "lblActive";
             lblActive.Size = new Size(50, 20);
             lblActive.TabIndex = 10;
@@ -180,7 +180,7 @@
             // 
             // btnSaveRecipes
             // 
-            btnSaveRecipes.Location = new Point(3, 188);
+            btnSaveRecipes.Location = new Point(3, 181);
             btnSaveRecipes.Name = "btnSaveRecipes";
             btnSaveRecipes.Size = new Size(94, 29);
             btnSaveRecipes.TabIndex = 11;
@@ -192,21 +192,21 @@
             gRecipe.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tblMain.SetColumnSpan(gRecipe, 3);
             gRecipe.Dock = DockStyle.Fill;
-            gRecipe.Location = new Point(3, 223);
+            gRecipe.Location = new Point(3, 216);
             gRecipe.Name = "gRecipe";
             gRecipe.RowHeadersWidth = 51;
             gRecipe.RowTemplate.Height = 29;
-            gRecipe.Size = new Size(794, 224);
+            gRecipe.Size = new Size(794, 231);
             gRecipe.TabIndex = 12;
             // 
-            // ckActive
+            // ckbIsActive
             // 
-            ckActive.AutoSize = true;
-            ckActive.Location = new Point(245, 165);
-            ckActive.Name = "ckActive";
-            ckActive.Size = new Size(18, 17);
-            ckActive.TabIndex = 13;
-            ckActive.UseVisualStyleBackColor = true;
+            ckbIsActive.AutoSize = true;
+            ckbIsActive.Location = new Point(245, 158);
+            ckbIsActive.Name = "ckbIsActive";
+            ckbIsActive.Size = new Size(18, 17);
+            ckbIsActive.TabIndex = 13;
+            ckbIsActive.UseVisualStyleBackColor = true;
             // 
             // frmNewCookbook
             // 
@@ -230,7 +230,7 @@
         private Label lblCookbookName;
         private TextBox txtCookbookName;
         private Label lblUser;
-        private ComboBox lstUser;
+        private ComboBox lstUsernameName;
         private Label lblDateLabel;
         private Label lblDateCreated;
         private TextBox txtPrice;
@@ -238,6 +238,6 @@
         private Label lblActive;
         private Button btnSaveRecipes;
         private DataGridView gRecipe;
-        private CheckBox ckActive;
+        private CheckBox ckbIsActive;
     }
 }

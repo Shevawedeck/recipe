@@ -10,12 +10,12 @@
         }
         private void BindData()
         {
-            WindowsFormUtility.SetListBinding(lstRecipe, DataMaintenance.GetDataList("Recipe"), null, "Recipe");
+            WindowsFormUtility.SetListBinding(lstRecipeName, DataMaintenance.GetDataList("Recipe"), null, "Recipe");
             //lstRecipe.DataSource = Recipe.Load(recipeid);
         }
         private void CloneARecipe()
         {
-            int recipeid = WindowsFormUtility.GetIdFromComboBox(lstRecipe);
+            int recipeid = WindowsFormUtility.GetIdFromComboBox(lstRecipeName);
             Cursor = Cursors.WaitCursor;
             try
             {
