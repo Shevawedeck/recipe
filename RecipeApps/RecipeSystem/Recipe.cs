@@ -13,7 +13,7 @@ namespace RecipeSystem
         public static DataTable SearchRecipes(string recipename)
         {
             DataTable dt = new();
-            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeSearch");
             SQLUtility.SetParamValue(cmd, "@RecipeName", recipename);
             dt = SQLUtility.GetDataTable(cmd);
             return dt;

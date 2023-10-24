@@ -22,7 +22,9 @@ namespace RecipeWinForms
             btnNewRecipe.Click += BtnNewRecipe_Click;
             LoadTable();
             gRecipeList.CellDoubleClick += GRecipeList_CellDoubleClick;
+            gRecipeList.KeyDown += GRecipeList_KeyDown;
         }
+
         private void LoadTable()
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
@@ -54,6 +56,14 @@ namespace RecipeWinForms
         private void GRecipeList_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
             ShowRecipeForm(e.RowIndex);
+        }
+        private void GRecipeList_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && gRecipeList.SelectedRows.Count > 0)
+            {
+                ShowRecipeForm(gRecipeList.SelectedRows[0].Index);
+                e.SuppressKeyPress = true;
+            }
         }
     }
 }

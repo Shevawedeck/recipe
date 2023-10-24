@@ -1,13 +1,17 @@
 using System.Data;
+using System.Configuration;
 
 namespace RecipeTest
 {
     public class Tests
     {
+        string connstring = ConfigurationManager.ConnectionStrings["devconn"].ConnectionString;
+        string testconnstring = ConfigurationManager.ConnectionStrings["unittestconn"].ConnectionString;
+
         [SetUp]
         public void Setup()
         {
-            DBManager.SetConnectionString("Server=.\\SQLExpress;Database=HeartyHearthDB;Trusted_Connection=true");
+            DBManager.SetConnectionString(connstring,true);
         }
         [Test]
         [TestCase("squash soup", 400, "2010-01-01", "2011-01-01")]
