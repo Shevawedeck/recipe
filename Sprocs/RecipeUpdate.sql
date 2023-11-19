@@ -1,5 +1,5 @@
 create or alter procedure dbo.RecipeUpdate(
-    @RecipeId int output,
+    @RecipeId int = 0 output,
     @UsernameId int,
     @CuisineId int,
     @RecipeName varchar(70),
@@ -18,6 +18,8 @@ begin
     begin
         insert Recipe(UsernameId, CuisineId, RecipeName, Calories)
         values(@UsernameId, @CuisineId, @RecipeName, @Calories)
+
+        select @RecipeId = SCOPE_IDENTITY()
     end
     else
     begin
