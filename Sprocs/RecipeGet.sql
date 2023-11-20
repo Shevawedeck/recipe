@@ -9,7 +9,7 @@ begin
     on r.RecipeId = ri.RecipeId
     where r.RecipeId = @RecipeId
     or @All = 1
-    or (@RecipeName <> '' and r.RecipeName like '%' + @RecipeName + '%')
+    or (@RecipeName = '' or r.RecipeName like '%' + @RecipeName + '%')
     group by r.RecipeId, r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, r.UsernameId, r.CuisineId
     order by r.RecipeStatus desc
 end
