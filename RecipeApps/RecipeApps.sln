@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeSystem", "RecipeSyste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeTest", "RecipeTest\RecipeTest.csproj", "{99F5E09D-6A22-4500-9009-B092336CE46E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMAUI", "RecipeMAUI\RecipeMAUI.csproj", "{D3340DD6-69BB-4FBC-BED6-955A1462D1B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeMAUI", "RecipeMAUI\RecipeMAUI.csproj", "{D3340DD6-69BB-4FBC-BED6-955A1462D1B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

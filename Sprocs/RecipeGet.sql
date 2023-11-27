@@ -5,11 +5,11 @@ begin
     from Recipe r
     join Username u
     on u.UsernameId = r.UsernameId
-    join RecipeIngredient ri
+    left join RecipeIngredient ri
     on r.RecipeId = ri.RecipeId
     where r.RecipeId = @RecipeId
     or @All = 1
-    or (@RecipeName = '' or r.RecipeName like '%' + @RecipeName + '%')
+    or r.RecipeName = '%' + @RecipeName + '%'
     group by r.RecipeId, r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, r.UsernameId, r.CuisineId
     order by r.RecipeStatus desc
 end
@@ -24,4 +24,4 @@ go
 --declare @id int
 --select top 1 @id = r.RecipeId
 --from Recipe r
---exec RecipeGet @RecipeId = @id
+--exec RecipeGet @RecipeId = 144

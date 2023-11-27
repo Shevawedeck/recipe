@@ -27,6 +27,19 @@ namespace RecipeWinForms
             mnuWindows.Click += MnuWindows_Click;
             this.Shown += FrmMain_Shown;
         }
+        private void FrmMain_Shown(object? sender, EventArgs e)
+        {
+            frmLogin f = new() { StartPosition = FormStartPosition.CenterParent };
+            bool b = f.ShowLogin();
+            if (b == false)
+            {
+                this.Close();
+                Application.Exit();
+                return;
+            }
+            OpenForm(typeof(frmDashboard));
+        }
+
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
             bool b = WindowsFormUtility.IsFormOpen(frmtype);
@@ -154,10 +167,6 @@ namespace RecipeWinForms
         private void MnuRecipesNew_Click(object? sender, EventArgs e)
         {
             OpenForm(typeof(frmNewRecipe));
-        }
-        private void FrmMain_Shown(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmDashboard));
         }
     }
 }

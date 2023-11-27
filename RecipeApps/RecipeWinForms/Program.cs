@@ -18,7 +18,7 @@ namespace RecipeWinForms
 #if DEBUG
             f.Text = f.Text + "- DEV";
 #endif            
-            Application.Run(new frmMain());
+            Application.Run(f);
         }
     }
 }
