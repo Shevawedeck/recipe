@@ -10,10 +10,7 @@ begin
     on r.RecipeId = mcr.RecipeId
     join MealCourse mc
     on mc.MealCourseId = mcr.MealCourseId
-    join Meal m
-    on m.MealId = mc.MealId
-    where m.MealId = @MealId
-    group by m.MealId
+    where mc.MealId = @MealId
 
     return @Value
 end 
