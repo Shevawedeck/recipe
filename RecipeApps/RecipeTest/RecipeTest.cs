@@ -7,6 +7,12 @@ namespace RecipeTest
     {
         string connstring = ConfigurationManager.ConnectionStrings["devconn"].ConnectionString;
         string testconnstring = ConfigurationManager.ConnectionStrings["unittestconn"].ConnectionString;
+
+        [SetUp]
+        public void Setup()
+        {
+            DBManager.SetConnectionString(connstring, true);
+        }
         private DataTable GetDataTable(string sql)
         {
             DataTable dt = new();
@@ -28,11 +34,6 @@ namespace RecipeTest
             DBManager.SetConnectionString(testconnstring, false);
             ExecuteSQL(sql);
             DBManager.SetConnectionString(connstring, false);
-        }
-        [SetUp]
-        public void Setup()
-        {
-            DBManager.SetConnectionString(connstring,true);
         }
         [Test]
         [TestCase("chicken soup", 400, "2010-01-01", "2011-01-01")]
