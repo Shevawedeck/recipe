@@ -1,8 +1,11 @@
--- SM Excellent! 80% See comments, fix and resubmit.
+-- SM Excellent! 92% See comments, fix and resubmit.
 --Note: some of these scripts are needed for specific items, when the instructions say "specific" pick one item in your data and specify it in the where clause using a unique value that identifies it, do not use the primary key.
 
 --1) Sometimes when a staff member is fired. We need to eradicate everything from that user in our system. Write the SQL to delete a specific user and all the user's related records.
 -- SM -50% Yes this would delete this specific user. But what about the meals? What about if this user created recipes and other users used it for their meals/cookbooks?
+-- SM The user has recipes and cookbooks. In order to delete the cookbooks you need to delete all recipes in the users cookbook not all the users recipes.
+-- And in order to delete all users recipes you need to delete all users recipes from all cookbooks not just users cookbook.
+-- The same is with meals.
 delete cr
 from CookbookRecipe cr
 join Recipe r
@@ -66,7 +69,6 @@ from Username u
 where u.UsernameName = 'ssuss'
 --2) Sometimes we want to clone a recipe as a starting point and then edit it. For example we have a complex recipe (steps and ingredients) and want to make a modified version. 
 --Write the SQL that clones a specific recipe, add " - clone" to its name.
--- SM -50% The point here is to add a recipe with all ingredients and steps, based on specific recipe in table. Just the name should be changed to recipename + " - clone".
 ;with x as(
 	select r.RecipeName
 	from Recipe r 
@@ -142,7 +144,6 @@ For example, the calorie count for butter went down by 2 per ounce, and 10 per s
 Write an update statement that changes the number of calories of a recipe for a specific ingredient. 
 The statement should include at least two measurement types, like the example above. 
 */
--- SM -10% This should be done with single update statement.
 update r
 set Calories = 
 	case 
@@ -169,8 +170,8 @@ Produce a result set that has 4 columns (Data values in brackets should be repla
 		Your recipe [recipe name] is sitting in draft for [X] hours.
 		That is [Z] hours more than the average [Y] hours all other recipes took to be published.
 */
--- SM This doesnt return anything. Add some data to make this report interesting.
 ;
+-- SM Use datediff(hour). And this should only return those that are drafted. Add data.
 with x as(
 	select AvgHoursInDraft = avg(datediff(day, r.DateDrafted, r.DatePublished)*24)
 	from Recipe r

@@ -1,3 +1,4 @@
+-- SM Excellent! See comments, fix and resubmit.
 /*
 Our website development is underway! 
 Below is the layout of the pages on our website, please provide the SQL to produce the necessary result sets.
@@ -27,6 +28,7 @@ Recipe list page:
     In the resultset show the Recipe with its status, dates it was published and archived in mm/dd/yyyy format (blank if not archived), user, number of calories and number of ingredients.
     Tip: You'll need to use the convert function for the dates
 */
+-- SM -50% You need to only include published and archived. And the archived ones should be in specific format. Format dates. Don't show null for dates show blank. Add some data for this.
 select r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, NumIngredients = count(ri.IngredientId)
 from Recipe r
 join Username u
@@ -43,6 +45,7 @@ Recipe details page:
         c) List of prep steps sorted by sequence.
 */
 --a)
+-- SM No need for CTE. You can count distinct.
 ;
 with x as
 (
@@ -84,6 +87,7 @@ order by d.SequenceNum
 Meal list page:
     For all active meals, show the meal name, user that created the meal, number of calories for the meal, number of courses, and number of recipes per each meal, sorted by name of meal
 */
+-- SM Should only be for active meals. No need for CTE. You can count distinct.
 ;
 with x as(
     select m.MealName, NumCalories = sum(r.Calories)
@@ -167,6 +171,7 @@ where m.MealName = 'Summer Brunch'
 Cookbook list page:
     Show all active cookbooks with author and number of recipes per book. Sorted by book name.
 */
+-- SM Sorted by book name.
 select c.CookbookName, Author = concat(u.FirstName, ' ', u.LastName), NumRecipes = count(cr.RecipeId), c.Price
 from Cookbook c
 join CookbookRecipe cr 
@@ -193,6 +198,7 @@ where c.CookbookName = 'Treats for Two'
 group by c.CookbookName, u.UsernameName, c.DateCreated, c.Price, c.CookbookImage
 --b
 ;
+-- SM Should be sorted in correct order. And no need for CTE.
 with x as
 (
     select r.RecipeName, NumIngredients = count(ri.RecipeId)
@@ -230,6 +236,7 @@ April Fools Page:
         Hint: Use CTE
 */
 --a
+-- SM This is returning multiple times each recipe.
 select JokeRecipes = concat(upper(substring(reverse(r.RecipeName),1,1)), lower(substring(reverse(r.RecipeName),2,100))), 
        Pictures = concat('Recipe_', replace(concat(upper(substring(reverse(r.RecipeName),1,1)), lower(substring(reverse(r.RecipeName),2,100))), ' ', '_'),'.jpg')
 from Recipe r
@@ -307,18 +314,21 @@ join x
 on x.UsernameName = u.UsernameName
 group by u.UsernameName, x.NumRecipes
 --c)
+-- SM Use sum() and set to 1 else 0. And you set the opposite.
 select u.UsernameName, TotalMeals = count(m.MealId), ActiveMeals = count(case when m.IsActive = 0 then m.MealId end), InactiveMeals = count(case when m.IsActive = 1 then m.MealId end) 
 from Meal m 
 join Username u 
 on u.UsernameId = m.UsernameId
 group by u.UsernameName 
 --d) 
+-- SM Use sum() and set to 1 else 0. And you set the opposite.
 select u.UsernameName, TotalCookbooks = count(c.CookbookId), ActiveCookbooks = count(case when c.IsActive = 0 then c.CookbookId end), InactiveCookbooks = count(case when c.IsActive = 1 then c.CookbookId end) 
 from Cookbook c
 join Username u 
 on u.UsernameId = c.UsernameId
 group by u.UsernameName 
 --e)
+-- SM Add data for this.
 select r.RecipeName, DaysTilArchived = datediff(day, r.DateDrafted, r.DateArchived)
 from Recipe r 
 where r.RecipeStatus = 'archived'
@@ -334,6 +344,7 @@ For user dashboard page:
         Hint: For the number of recipes, use count of records that have a staffid or CTE.
 */
 --a
+-- SM Add column name.
 select 'Recipes', count(r.RecipeName)
 from Username u 
 join Recipe r 
@@ -350,6 +361,7 @@ join Cookbook c
 on c.UsernameId = u.UsernameId
 where u.UsernameName = 'ssuss'
 --b
+-- SM Published can never be before archived. Use isnull()
 select r.RecipeName, r.RecipeStatus, NumOfHoursUntilCurrentStatus = datediff(hour, case when r.RecipeStatus = 'published' then r.DateDrafted 
                                                                                         when r.RecipeStatus = 'archived' and r.DatePublished < r.DateDrafted then r.DateDrafted  
                                                                                         else r.DatePublished end, 
