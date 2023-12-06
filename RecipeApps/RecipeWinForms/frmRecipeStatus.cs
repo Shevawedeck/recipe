@@ -94,6 +94,8 @@ namespace RecipeWinForms
                 {
                     txtDateDrafted.Clear();
                     txtDateDrafted.Text = DateTime.Now.Date.ToString();
+                    if (currentstatus == StatusEnum.Archived) { txtDateArchived.Clear(); } 
+                    else if (currentstatus == StatusEnum.Published) {  txtDatePublished.Clear(); }
                     currentstatus = StatusEnum.Drafted;
                 }
                 Recipe.SaveDate(dtrecipe);

@@ -40,7 +40,7 @@ namespace RecipeWinForms
         {
             bool b = cookbookid == 0 ? false : true;
             btnDelete.Enabled = b;
-            btnSave.Enabled = b;
+            //btnSave.Enabled = b;
             btnSaveRecipes.Enabled = b;
         }
         private void LoadCookbookRecipes()

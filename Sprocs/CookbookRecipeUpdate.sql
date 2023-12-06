@@ -13,8 +13,8 @@ begin
 
 	if @CookbookRecipeId = 0
 	begin
-		insert CookbookRecipe(CookbookId, RecipeId)
-		values(@CookbookId, @RecipeId)
+		insert CookbookRecipe(CookbookId, RecipeId, SequenceNum)
+		values(@CookbookId, @RecipeId, @SequenceNum)
 
 		select @CookbookRecipeId= scope_identity()
 	end

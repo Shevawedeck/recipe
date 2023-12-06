@@ -1,4 +1,6 @@
 ﻿using CPUFramework;
+using Microsoft.VisualBasic;
+using RecipeSystem;
 
 namespace RecipeWinForms
 {
@@ -40,7 +42,7 @@ namespace RecipeWinForms
             WindowsFormUtility.SetControlBinding(txtDateArchived, bindsource);
             this.Text = GetRecipeDesc();
             LoadDirection();
-            LoadIngredient();
+            LoadRecipeIngredient();
             SetButtonsEnabledBasedOnNew();
         }
         private void LoadDirection()
@@ -51,13 +53,16 @@ namespace RecipeWinForms
             WindowsFormUtility.AddDeleteButtonToGrid(gSteps, deletecolname);
             WindowsFormUtility.FormatGridForEdit(gSteps, "Direction");
         }
-        private void LoadIngredient()
+        private void LoadRecipeIngredient()
         {
             dtingredients = Ingredient.LoadByRecipeId(recipeid);
             gIngredients.Columns.Clear();
             gIngredients.DataSource = dtingredients;
+            WindowsFormUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient"), "Ingredient", "IngredientName");
+            WindowsFormUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Measurement"), "MeasurementType", "MeasurementTypeName");
             WindowsFormUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
-            WindowsFormUtility.FormatGridForEdit(gIngredients, "Ingredient");
+            WindowsFormUtility.FormatGridForEdit(gIngredients, "RecipeIngredient");
+            //gIngredients.Columns["IngredientName"].Visible = false;
         }
         private void ShowForm(Type frmtype)
         {
@@ -94,6 +99,7 @@ namespace RecipeWinForms
             Application.UseWaitCursor = true;
             try
             {
+                if (recipeid == 0) { txtDateDrafted.Text = DateAndTime.DateString; }
                 Recipe.Save(dtrecipe);
                 b = true;
                 bindsource.ResetBindings(false);
@@ -160,7 +166,7 @@ namespace RecipeWinForms
                 try
                 {
                     Ingredient.Delete(id);
-                    LoadIngredient();
+                    LoadRecipeIngredient();
                 }
                 catch (Exception ex)
                 {
@@ -178,6 +184,7 @@ namespace RecipeWinForms
             btnDelete.Enabled = b;
             btnSaveIngredients.Enabled = b;
             btnSaveSteps.Enabled = b;
+            btnChangeStatus.Enabled = b;
             //btnSaveRecipe.Enabled = b;
         }
         private string GetRecipeDesc()
@@ -186,7 +193,7 @@ namespace RecipeWinForms
             int pkvalue = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeId");
             if (pkvalue > 0)
             {
-                value = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "Calories") + SQLUtility.GetValueFromFirstRowAsString(dtrecipe, "RecipeName");
+                value = "Recipe - " + SQLUtility.GetValueFromFirstRowAsString(dtrecipe, "RecipeName");
             }
             return value;
         }

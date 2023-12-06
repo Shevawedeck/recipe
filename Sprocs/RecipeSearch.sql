@@ -5,9 +5,11 @@ create or alter procedure dbo.RecipeSearch(
 as
 begin
     declare @return int = 0, @count int = 0
-    declare @t table(Recipeid int)
+    declare @t table(recipeid int)
 
-    insert @t(Recipeid)
+     select @RecipeName = isnull(@RecipeName, '')
+
+    insert @t(recipeid)
     select r.RecipeId
     from Recipe r
 	where (r.RecipeName like '%' + @RecipeName + '%' or @RecipeName = '')

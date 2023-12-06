@@ -15,6 +15,7 @@ begin
     or @All = 1 
     or cr.CookbookId = @CookbookId
     or cr.RecipeId = @RecipeId
+    order by cr.SequenceNum
 
     return @return
 end 

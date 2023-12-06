@@ -24,9 +24,11 @@ namespace RecipeWinForms
             mnuCookbookNew.Click += MnuCookbookNew_Click;
             mnuCookbookAuto.Click += MnuCookbookAuto_Click;
             mnuDataMaintenanceEdit.Click += MnuDataMaintenanceEdit_Click;
-            mnuWindows.Click += MnuWindows_Click;
+            mnuWindowsCascade.Click += MnuWindowsCascade_Click;
+            mnuWindowsTile.Click += MnuWindowsTile_Click;
             this.Shown += FrmMain_Shown;
         }
+
         private void FrmMain_Shown(object? sender, EventArgs e)
         {
             frmLogin f = new() { StartPosition = FormStartPosition.CenterParent };
@@ -119,10 +121,16 @@ namespace RecipeWinForms
         {
             WindowsFormUtility.SetUpNav(tsMain);
         }
-        private void MnuWindows_Click(object? sender, EventArgs e)
+        private void MnuWindowsTile_Click(object? sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void MnuWindowsCascade_Click(object? sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.TileVertical);
         }
+
 
         private void MnuFileDashboard_Click(object? sender, EventArgs e)
         {
