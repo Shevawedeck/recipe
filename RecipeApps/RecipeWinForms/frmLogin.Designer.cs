@@ -98,6 +98,7 @@
             txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(392, 34);
             txtPassword.TabIndex = 3;
+            txtPassword.Text = "CPU4321!";
             // 
             // tblButtons
             // 

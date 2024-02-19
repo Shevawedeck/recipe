@@ -16,18 +16,24 @@ namespace RecipeSystem
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
-        public static void SaveTable(DataTable dt, int recipeid)
+        public static void SaveRecipeIngredient(DataTable dt, int recipeid)
         {
             foreach (DataRow r in dt.Select("", "", DataViewRowState.Added))
             {
                 r["RecipeId"] = recipeid;
             }
-            SQLUtility.SaveDataTable(dt, "IngredientUpdate");
+            SQLUtility.SaveDataTable(dt, "RecipeIngredientUpdate");
         }
-        public static void Delete(int directionid)
+        public static void Delete(int ingredientid)
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("IngredientDelete");
-            cmd.Parameters["@IngredientId"].Value = directionid;
+            cmd.Parameters["@IngredientId"].Value = ingredientid;
+            SQLUtility.ExecuteSQL(cmd);
+        }
+        public static void DeleteRecipeIngredient(int recipeingredientid)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeIngredientDelete");
+            cmd.Parameters["@RecipeIngredientId"].Value = recipeingredientid;
             SQLUtility.ExecuteSQL(cmd);
         }
     }

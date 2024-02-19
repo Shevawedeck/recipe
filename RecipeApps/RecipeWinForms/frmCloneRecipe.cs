@@ -19,11 +19,13 @@
             Cursor = Cursors.WaitCursor;
             try
             {
-                Recipe.Clone(recipeid);
+                DataTable dt = new DataTable();
+                dt = Recipe.CloneAndGetDT(recipeid);
+                int newrecipeid = SQLUtility.GetValueFromFirstRowAsInt(dt, "RecipeId");
+                //int newrecipeid = 
                 if (this.MdiParent != null && this.MdiParent is frmMain)
                 {
-                    ((frmMain)this.MdiParent).OpenForm(typeof(frmNewRecipe));
-                    //frmNewRecipe.LoadForm(recipeid);
+                    ((frmMain)this.MdiParent).OpenForm(typeof(frmNewRecipe), newrecipeid);
                     this.Close();
                 }
             }

@@ -16,6 +16,11 @@ begin
     where u.UsernameName = @UsernameName
     or u.UsernameId = @UsernameId
 
+    declare @newcookbookid int
+
+      select @newcookbookid = CookbookId from Cookbook c
+      where CookbookId = SCOPE_IDENTITY()
+
     insert CookbookRecipe(CookbookId, RecipeId, SequenceNum)
     select c.CookbookId, r.RecipeId, ROW_NUMBER() over (order by r.RecipeName)
     from Recipe r
@@ -26,6 +31,15 @@ begin
     where c.CookbookName like 'Recipes by %'
     and (u.UsernameName = @UsernameName
     or u.UsernameId = @UsernameId)
+
+    select * from Cookbook c
+    join CookbookRecipe cr 
+    on cr.CookbookId = c.CookbookId
+    join Username u
+    on c.UsernameId = u.UsernameId
+    where c.CookbookId = @newcookbookid
+
 end 
 go
---exec CookbookCreate
+--exec CookbookCreate @UsernameId = 8
+--select * from Cookbook

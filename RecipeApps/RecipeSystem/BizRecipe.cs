@@ -20,6 +20,7 @@ namespace RecipeSystem
         private DateTime _datedrafted;
         private DateTime _datepublished;
         private DateTime _datearchived;
+        private string _vegan = "";
 
         public int RecipeId
         {
@@ -119,6 +120,17 @@ namespace RecipeSystem
                 }
             }
         }
-
+        public string Vegan
+        {
+            get { return _vegan; }
+            set
+            {
+                if (_vegan != value)
+                {
+                    _vegan = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
     }
 }

@@ -36,7 +36,7 @@ create table dbo.Ingredient(
         constraint u_Ingredient_name unique 
         constraint ck_Ingredient_name_cannot_be_blank check(IngredientName <> ''),
 -- SM Really important!!! Change it to _ instead of -
-    IngredientImage as concat('Ingredient-', replace(IngredientName, ' ', '-'), '.jpg') persisted
+    IngredientImage as concat('Ingredient_', replace(IngredientName, ' ', '_'), '.jpg') persisted
 )
 
 -- SM Table name should be "users" or "staff" because column "UsernameName" is a bit...
@@ -67,7 +67,7 @@ create table dbo.Recipe(
                     else 'archived'
                     end,
 -- SM Really important!!! Change it to _ instead of -
-    RecipeImage as concat('Recipe-', replace(RecipeName, ' ', '-'), '.jpg'),
+    RecipeImage as concat('Recipe_', replace(RecipeName, ' ', '_'), '.jpg'),
     constraint ck_Recipe_date_archived_must_be_after_date_drafted check(DateArchived > DateDrafted),
     constraint ck_Recipe_date_published_must_be_after_date_drafted check(DatePublished > DateDrafted),
     constraint ck_Recipe_date_published_must_be_before_date_archived check(DatePublished < DateArchived)
@@ -100,7 +100,7 @@ create table dbo.Meal(
     DateCreated date not null constraint ck_Meal_date_created_must_be_after_1950_and_cannot_be_a_future_date check(year(DateCreated) between 1950 and getdate()),
     IsActive bit not null default 1,
 -- SM Really important!!! Change it to _ instead of -
-    MealImage as concat('Meal-', replace(MealName, ' ', '-'), '.jpg')
+    MealImage as concat('Meal_', replace(MealName, ' ', '_'), '.jpg')
 )
 
 create table dbo.Cookbook(
@@ -113,7 +113,7 @@ create table dbo.Cookbook(
     IsActive bit not null default 1,
     DateCreated date constraint ck_Cookbook_date_created_must_be_after_1950_and_cannot_be_a_future_date check(year(DateCreated) between 1950 and getdate() ),
 -- SM Really important!!! Change it to _ instead of -
-    CookbookImage as concat('CookBook-', replace(CookbookName, ' ', '-'), '.jpg')
+    CookbookImage as concat('CookBook_', replace(CookbookName, ' ', '_'), '.jpg')
 )
 
 create table dbo.RecipeIngredient(

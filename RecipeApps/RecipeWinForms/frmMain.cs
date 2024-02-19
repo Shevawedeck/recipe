@@ -45,9 +45,10 @@ namespace RecipeWinForms
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
             bool b = WindowsFormUtility.IsFormOpen(frmtype);
+            Form? newfrm = null;
             if (b == false)
             {
-                Form? newfrm = null;
+               
                 if (frmtype == typeof(frmDashboard))
                 {
                     frmDashboard f = new frmDashboard();
@@ -70,14 +71,23 @@ namespace RecipeWinForms
                 }
                 else if (frmtype == typeof(frmNewRecipe))
                 {
-                    frmNewRecipe f = new();
-                    newfrm = f;
-                    f.LoadForm(pkvalue);
+                    if (pkvalue == 0)
+                    {
+                        frmNewRecipe f = new();
+                        newfrm = f;
+                    }
+                    if (pkvalue > 0)
+                    {
+                        frmNewRecipe f = new();
+                        newfrm = f;
+                        f.LoadForm(pkvalue);
+                    }
                 }
                 else if (frmtype == typeof(frmNewCookbook))
                 {
                     frmNewCookbook f = new();
                     newfrm = f;
+                    //pkvalue = Cookbook
                     f.LoadForm(pkvalue);
                 }
                 else if (frmtype == typeof(frmCloneRecipe))
@@ -110,6 +120,16 @@ namespace RecipeWinForms
                     newfrm.Show();
                 }
                 WindowsFormUtility.SetUpNav(tsMain);
+            }
+            else if (b == true)
+            {
+                if (frmtype == typeof(frmNewRecipe))
+                {
+                    frmNewRecipe f = new();
+                    newfrm = f;
+                    f.LoadForm(pkvalue);
+                }
+                //else if(frmtype == typeof(frmNewRecipe) && pkvalue == 0)
             }
         }
         private void Newfrm_TextChanged(object? sender, EventArgs e)

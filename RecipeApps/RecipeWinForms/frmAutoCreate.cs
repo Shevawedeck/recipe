@@ -24,15 +24,16 @@ namespace RecipeWinForms
         }
         private void CreateCookbook()
         {
+            DataTable dt = new DataTable();
             int usernameid = WindowsFormUtility.GetIdFromComboBox(lstUsernameName);
             Cursor = Cursors.WaitCursor;
             try
             {
-                Cookbook.AutoCreateCookbook(usernameid);
+                dt = Cookbook.AutoCreateCookbook(usernameid);
+                int id = SQLUtility.GetValueFromFirstRowAsInt(dt, "CookbookId");
                 if (this.MdiParent != null && this.MdiParent is frmMain)
                 {
-                    ((frmMain)this.MdiParent).OpenForm(typeof(frmNewCookbook));
-                    //frmNewRecipe.LoadForm(recipeid);
+                    ((frmMain)this.MdiParent).OpenForm(typeof(frmNewCookbook), id);
                     this.Close();
                 }
             }

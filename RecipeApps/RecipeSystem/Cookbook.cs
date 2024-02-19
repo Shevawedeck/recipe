@@ -25,11 +25,13 @@ namespace RecipeSystem
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
-        public static void AutoCreateCookbook(int usernameid)
+        public static DataTable AutoCreateCookbook(int usernameid)
         {
+            DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSQLCommand("CookbookCreate");
             SQLUtility.SetParamValue(cmd, "@UsernameId", usernameid);
-            SQLUtility.ExecuteSQL(cmd);
+            dt = SQLUtility.GetDataTable(cmd);
+            return dt;
         }
         public static void Delete(DataTable dtcookbook)
         {
@@ -58,7 +60,8 @@ namespace RecipeSystem
         public static void DeleteCookbookRecipe(int cookbookrecipeid)
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("CookbookRecipeDelete");
-            cmd.Parameters["@CookbookRecipeId"].Value = cookbookrecipeid;
+            //cmd.Parameters["@CookbookRecipeId"].Value = cookbookrecipeid;
+            SQLUtility.SetParamValue(cmd, "@CookbookRecipeId", cookbookrecipeid);
             SQLUtility.ExecuteSQL(cmd);
         }
         public static DataTable GetUsernameList()

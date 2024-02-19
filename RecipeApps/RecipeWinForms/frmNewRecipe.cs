@@ -12,6 +12,7 @@ namespace RecipeWinForms
         BindingSource bindsource = new BindingSource();
         string deletecolname = "deletecol";
         int recipeid = 0;
+        int recipeingredientid = 0;
         public frmNewRecipe()
         {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace RecipeWinForms
             gSteps.CellContentClick += GSteps_CellContentClick;
             btnChangeStatus.Click += BtnChangeStatus_Click;
         }
+
         public void LoadForm(int recipeidval)
         {
             recipeid = recipeidval;
@@ -40,6 +42,7 @@ namespace RecipeWinForms
             WindowsFormUtility.SetControlBinding(txtDateDrafted, bindsource);
             WindowsFormUtility.SetControlBinding(txtDatePublished, bindsource);
             WindowsFormUtility.SetControlBinding(txtDateArchived, bindsource);
+            WindowsFormUtility.SetControlBinding(txtRecipeStatus, bindsource);
             this.Text = GetRecipeDesc();
             LoadDirection();
             LoadRecipeIngredient();
@@ -60,8 +63,8 @@ namespace RecipeWinForms
             gIngredients.DataSource = dtingredients;
             WindowsFormUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient"), "Ingredient", "IngredientName");
             WindowsFormUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Measurement"), "MeasurementType", "MeasurementTypeName");
-            WindowsFormUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
             WindowsFormUtility.FormatGridForEdit(gIngredients, "RecipeIngredient");
+            WindowsFormUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
             //gIngredients.Columns["IngredientName"].Visible = false;
         }
         private void ShowForm(Type frmtype)
@@ -118,7 +121,7 @@ namespace RecipeWinForms
             }
             return b;
         }
-        private void SaveOther(DataTable dt)
+        private void SaveDirection(DataTable dt)
         {
             try
             {
@@ -129,6 +132,18 @@ namespace RecipeWinForms
                 MessageBox.Show(ex.Message, Application.ProductName);
             }
             Direction.SaveTable(dt, recipeid);
+        }
+        private void SaveIngredient()
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName);
+            }
+            Ingredient.SaveRecipeIngredient(dtingredients, recipeid);
         }
         private void DeleteDirection(int rowindex)
         {
@@ -160,17 +175,27 @@ namespace RecipeWinForms
         }
         private void DeleteIngredient(int rowindex)
         {
-            int id = WindowsFormUtility.GetIdFromGrid(gSteps, rowindex, "DirectionId");
+            int id = WindowsFormUtility.GetIdFromGrid(gIngredients, rowindex, "RecipeIngredientId");
+            var response = MessageBox.Show("Are you sure you want to delete this ingredient?", "HeartyHearth", MessageBoxButtons.YesNo);
+            if (response == DialogResult.No)
+            {
+                return;
+            }
+            Application.UseWaitCursor = true;
             if (id > 0)
             {
                 try
                 {
-                    Ingredient.Delete(id);
+                    Ingredient.DeleteRecipeIngredient(id);
                     LoadRecipeIngredient();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, Application.ProductName);
+                }
+                finally
+                {
+                    Application.UseWaitCursor = false;
                 }
             }
             else if (id < gSteps.Rows.Count)
@@ -218,12 +243,12 @@ namespace RecipeWinForms
         }
         private void BtnSaveSteps_Click(object? sender, EventArgs e)
         {
-            SaveOther(dtdirection);
+            SaveDirection(dtdirection);
         }
 
         private void BtnSaveIngredients_Click(object? sender, EventArgs e)
         {
-            SaveOther(dtingredients);
+            SaveIngredient();
         }
 
         private void FrmNewRecipe_FormClosing(object? sender, FormClosingEventArgs e)
