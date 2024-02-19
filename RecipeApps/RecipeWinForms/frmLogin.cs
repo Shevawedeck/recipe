@@ -49,5 +49,10 @@ namespace RecipeWinForms
                 MessageBox.Show("Invalid login. Try Again.", Application.ProductName);
             }
         }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
