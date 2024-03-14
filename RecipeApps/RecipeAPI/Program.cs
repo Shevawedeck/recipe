@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -29,9 +29,9 @@ app.UseAuthorization();
 app.UseCors("AllowAllOrigins");
 app.UseAuthorization();
 string settingname = "Settings:liveconn";
-#if DEBUG
-settingname = "Settings:devconn-local";
-#endif
+//#if DEBUG
+//settingname = "Settings:devconn-local";
+//#endif
 
 string? connstring = builder.Configuration[settingname];
 if (connstring == null)

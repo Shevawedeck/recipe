@@ -83,14 +83,14 @@ namespace RecipeWinForms
                     txtDateArchived.Clear();
                     txtDateArchived.Text = DateTime.Now.Date.ToString();
                     currentstatus = StatusEnum.Archived;
-                    //Recipe.SaveDate(dtrecipe);
+                    Recipe.SaveDate(dtrecipe);
                 }
                 else if (btn == btnPublish)
                 {
                     txtDatePublished.Clear();
                     txtDatePublished.Text = DateTime.Now.Date.ToString();
                     currentstatus = StatusEnum.Published;
-                    //Recipe.SaveDate(dtrecipe);
+                    Recipe.SaveDate(dtrecipe);
                 }
                 else if (btn == btnDraft)
                 {
@@ -98,14 +98,14 @@ namespace RecipeWinForms
                     if (currentstatus == StatusEnum.Archived) { txtDateArchived.Clear(); }
                     else if (currentstatus == StatusEnum.Published)
                     {txtDatePublished.Clear();}
-                    Recipe.SaveDate(dtrecipe);
+                    Recipe.SaveDateDraft(dtrecipe);
                     txtDateDrafted.Clear();
                     txtDateDrafted.Text = DateTime.Now.Date.ToString();
                     currentstatus = StatusEnum.Drafted;
-                    Recipe.SaveDate(dtrecipe);
+                    Recipe.SaveDateDraft(dtrecipe);
                 }
-                Recipe.SaveDate(dtrecipe);
-                //EnableDisable();
+                //Recipe.SaveDate(dtrecipe);
+                EnableDisable();
                 //dtrecipe = Recipe.Load(recipeid);
                 //bindsource.DataSource = dtrecipe;
                 LoadForm(recipeid);

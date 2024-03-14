@@ -15,8 +15,9 @@ namespace RecipeSystem
         private string _cookbookName = "";
         private decimal _price;
         private DateTime _dateCreated;
-        private bool _isActive;
         private string _skillDesc;
+        private string _author;
+        private string _isActive;
         
         public List<BizCookbook> Search(string cookbooknameval)
         {
@@ -81,6 +82,30 @@ namespace RecipeSystem
                 if( _skillDesc != value)
                 {
                     _skillDesc = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                if (_isActive != value)
+                {
+                    _isActive = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string Author
+        {
+            get { return _author; }
+            set
+            {
+                if (_author != value)
+                {
+                    _author = value;
                     InvokePropertyChanged();
                 }
             }

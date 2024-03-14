@@ -15,11 +15,13 @@ namespace RecipeSystem
         private string _mealName = "";
         private DateTime _dateCreated;
         private string _mealDesc = "";
+        private string _user = "";
+        private string _isActive = "";
 
         public List<BizMeal> Search(string mealnameval)
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand(this.GetSprocName);
-            SQLUtility.SetParamValue(cmd, "MealyName", mealnameval);
+            SQLUtility.SetParamValue(cmd, "MealName", mealnameval);
             DataTable dt = SQLUtility.GetDataTable(cmd);
             return this.GetListFromDataTable(dt);
         }
@@ -68,6 +70,30 @@ namespace RecipeSystem
                 if( _mealDesc != value)
                 {
                     _mealDesc = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user != value)
+                {
+                    _user = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                if (_isActive != value)
+                {
+                    _isActive = value;
                     InvokePropertyChanged();
                 }
             }

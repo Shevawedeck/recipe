@@ -20,5 +20,15 @@ namespace RecipeAPI
             r.Load(id);
             return r;
         }
+        //[HttpGet("getbycookbook/{cookbookid:int:min(0)}")]
+        //public List<BizRecipe> GetByCookbook(int cookbookid)
+        //{
+        //    return new BizRecipe().Search(cookbookid);
+        //}
+        [HttpGet("getbycookbook/{cookbookname}")]
+        public List<BizRecipe> GetByCookbookName(string cookbookname)
+        {
+            return new BizRecipe().Search(cookbookname);
+        }
     }
 }

@@ -21,6 +21,17 @@ namespace RecipeSystem
         private DateTime _datepublished;
         private DateTime _datearchived;
         private string _vegan = "";
+        private string _recipestatus = "";
+        private string _usernamename = "";
+        private int _numingredients;
+
+        public List<BizRecipe> Search(string cookbookname)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeSearch");
+            SQLUtility.SetParamValue(cmd, "@CookbookName", cookbookname);
+            DataTable dt = SQLUtility.GetDataTable(cmd);
+            return this.GetListFromDataTable(dt);
+        }
 
         public int RecipeId
         {
@@ -128,6 +139,42 @@ namespace RecipeSystem
                 if (_vegan != value)
                 {
                     _vegan = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string RecipeStatus
+        {
+            get { return _recipestatus; }
+            set
+            {
+                if (_recipestatus != value)
+                {
+                    _recipestatus = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string UsernameName
+        {
+            get { return _usernamename; }
+            set
+            {
+                if (_usernamename != value)
+                {
+                    _usernamename = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public int NumIngredients
+        {
+            get { return _numingredients; }
+            set
+            {
+                if (_numingredients != value)
+                {
+                    _numingredients = value;
                     InvokePropertyChanged();
                 }
             }
