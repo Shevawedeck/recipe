@@ -4,9 +4,7 @@ go
 --select concat('grant execute on ', r.ROUTINE_NAME, ' to approle')
 --from INFORMATION_SCHEMA.ROUTINES r
 
-grant execute on RecipeDesc to approle
 grant execute on UsernameUpdate to approle
-grant execute on MealListGet to approle
 grant execute on UsernameGet to approle
 grant execute on CuisineGet to approle
 grant execute on RecipeGet to approle
@@ -34,10 +32,14 @@ grant execute on CookbookUpdate to approle
 grant execute on CookbookRecipeGet to approle
 grant execute on CookbookGet to approle
 grant execute on RecipeListGet to approle
-grant execute on CookbookListGet to approle
+grant execute on CookbookGet to approle
 grant execute on CookbookRecipeUpdate to approle
 grant execute on CourseDelete to approle
 grant execute on MeasurementDelete to approle
 grant execute on RecipeSearch to approle
 grant execute on MealGet to approle
 grant execute on CaloriesPerMeal to approle
+grant execute on CookbookRecipeDelete to approle
+grant execute on CookbookRecipeUpdate to approle
+grant execute on RecipeIngredientDelete to approle
+grant execute on RecipeIngredientUpdate to approle

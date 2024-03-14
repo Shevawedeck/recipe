@@ -1,4 +1,4 @@
-create or alter procedure dbo.MealGet(@MealId int = 0, @All bit = 0, @MealName varchar(50) = '')
+create or alter procedure dbo.MealGet(@MealId int = 0, @All bit = 0, @MealName varchar(50) = '', @IncludeBlank bit = 0)
 as 
 begin
     ;
@@ -29,7 +29,7 @@ begin
         on m.MealId = mc.MealId
         group by m.MealName
     )
-    select m.MealId, m.UsernameId, m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), x.NumCalories, z.NumCourses, y.NumRecipes, m.DateCreated, m.IsActive, m.MealImage
+    select m.MealId, m.UsernameId, m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), x.NumCalories, z.NumCourses, y.NumRecipes, m.DateCreated, m.IsActive, m.MealImage, m.MealDesc
     from Meal m 
     join x 
     on x.MealName = m.MealName
@@ -42,6 +42,8 @@ begin
     where @All = 1
     or m.MealName = @MealName
     or m.MealId = @MealId
+    union select 0, 0, '', '', 0, 0, 0, '', 0, '', ''
+    where @IncludeBlank = 1
     order by m.MealName
 end 
 go 

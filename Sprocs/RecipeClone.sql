@@ -10,6 +10,9 @@ begin
     insert Recipe(UsernameId, CuisineId, RecipeName, Calories, DateDrafted, DatePublished, DateArchived)
     select (select r.UsernameId from Recipe r where r.RecipeName = x.RecipeName), (select r.CuisineId from Recipe r where r.RecipeName = x.RecipeName), concat((x.RecipeName), ' - clone'), (select r.Calories from Recipe r where r.RecipeName = x.RecipeName), (select r.DateDrafted from Recipe r where r.RecipeName = x.RecipeName), (select r.DatePublished from Recipe r where r.RecipeName = x.RecipeName), (select r.DateArchived from Recipe r where r.RecipeName = x.RecipeName)
     from x
+    
+    declare @newrecipeid int = 0
+    select @newrecipeid = scope_identity()
 
     ;with x as(
     	select r.RecipeName
@@ -40,5 +43,10 @@ begin
     on x.RecipeName = r.RecipeName
     join Direction d 
     on d.RecipeId = r.RecipeId  
+
+   
+    select * from recipe where recipeid = @newrecipeid
 end
 go
+
+--exec RecipeClone @RecipeId = 16

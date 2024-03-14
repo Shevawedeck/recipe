@@ -1,17 +1,21 @@
-create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @All bit = 0, @RecipeName varchar(50) = '')
+create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @All bit = 0, @RecipeName varchar(50) = '', @IncludeBlank bit = 0)
 as
 begin
-    select r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, ri.IngredientId, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage
+    select @RecipeName = nullif(@RecipeName, ''), @IncludeBlank = isnull(@IncludeBlank, 0)
+    select r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, NumIngredients = count(ri.IngredientId), Vegan = case when r.Vegan = 0 then 'No' else 'Yes' end
     from Recipe r
     join Username u
     on u.UsernameId = r.UsernameId
-    left join RecipeIngredient ri
+    join RecipeIngredient ri
     on r.RecipeId = ri.RecipeId
     where r.RecipeId = @RecipeId
     or @All = 1
-    or r.RecipeName = '%' + @RecipeName + '%'
-    group by r.RecipeId, r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, r.UsernameId, r.CuisineId
+    or r.RecipeName = @RecipeName
+    group by r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, r.Vegan
+    union select 0, 0, 0, '', '', '', 0, '', '', '', '',0, ''
+    where @IncludeBlank = 1
     order by r.RecipeStatus desc
+    
 end
 go
 
@@ -19,9 +23,9 @@ go
 
 --exec RecipeGet @All = 1
 
---exec RecipeGet @RecipeName = 'ch'
+--exec RecipeGet @RecipeName = 'Avacado Toast'
 
 --declare @id int
 --select top 1 @id = r.RecipeId
 --from Recipe r
---exec RecipeGet @RecipeId = 144
+--exec RecipeGet @RecipeId = 1028
