@@ -29,14 +29,17 @@ Recipe list page:
     Tip: You'll need to use the convert function for the dates
 */
 -- SM -50% You need to only include published and archived. And the archived ones should be in specific format. Format dates. Don't show null for dates show blank. Add some data for this.
-select r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, NumIngredients = count(ri.IngredientId)
+select RecipeName = case RecipeStatus 
+                    when 'archived' then concat('<span style="color:gray">', r.RecipeName, '</span>')
+                    when 'published'then r.RecipeName end, 
+                    r.RecipeStatus, DateArchived = isnull(convert(varchar, r.DateArchived, 101), ''), DatePublished = isnull(convert(varchar, r.DatePublished, 101), ''), u.UsernameName, r.Calories, NumIngredients = count(ri.IngredientId)
 from Recipe r
 join Username u
 on u.UsernameId = r.UsernameId
 join RecipeIngredient ri
 on r.RecipeId = ri.RecipeId
-group by r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories
-order by r.RecipeStatus desc
+group by r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, r.DateArchived, DatePublished
+order by r.RecipeStatus desc 
 /*
 Recipe details page:
     Show for a specific recipe (three result sets):
@@ -46,24 +49,21 @@ Recipe details page:
 */
 --a)
 -- SM No need for CTE. You can count distinct.
-;
-with x as
-(
-    select r.RecipeName, NumIngredients = count(ri.RecipeIngredientId)
-    from RecipeIngredient ri 
-    join Recipe r 
-    on r.RecipeId = ri.RecipeId
-    where r.RecipeName = 'Apple Yogurt Smoothie'
-    group by r.RecipeName
-)
-select r.RecipeName, r.Calories, x.NumIngredients, NumSteps = count(d.RecipeId), r.RecipeImage
+
+select r.RecipeName, r.Calories, NumIngredients = count(distinct ri.RecipeIngredientId), NumSteps = count(d.RecipeId), r.RecipeImage
 from Recipe r 
-join x 
-on r.RecipeName = x.RecipeName
+join Direction d 
+on d.RecipeId = r.RecipeId
+join RecipeIngredient ri 
+on ri.RecipeId = r.RecipeId
+where r.RecipeName = 'Apple Yogurt Smoothie'
+group by r.RecipeName, r.Calories, r.RecipeImage
+
+select NumSteps = count(d.RecipeId)
+from Recipe r
 join Direction d 
 on d.RecipeId = r.RecipeId
 where r.RecipeName = 'Apple Yogurt Smoothie'
-group by r.RecipeName, r.Calories, x.NumIngredients, r.RecipeImage
 --b)
 select ListIngredients = concat(ri.Amount,' ', m.MeasurementTypeName, ' ', i.IngredientName), r.RecipeImage
 from RecipeIngredient ri 

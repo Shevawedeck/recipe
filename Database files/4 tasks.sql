@@ -6,20 +6,40 @@
 -- SM The user has recipes and cookbooks. In order to delete the cookbooks you need to delete all recipes in the users cookbook not all the users recipes.
 -- And in order to delete all users recipes you need to delete all users recipes from all cookbooks not just users cookbook.
 -- The same is with meals.
-delete cr
+delete r 
 from CookbookRecipe cr
 join Recipe r
-on r.RecipeId = r.RecipeId
+on r.RecipeId = cr.RecipeId
 join Username u 
 on u.UsernameId = r.UsernameId
+where u.UsernameName = 'ssuss'
+
+delete r
+from CookbookRecipe cr
+join Cookbook c
+on cr.CookbookId = c.CookbookId
+join Recipe r
+on r.RecipeId = cr.RecipeId
+join Username u 
+on u.UsernameId = c.UsernameId
 where u.UsernameName = 'ssuss'
 
 delete mcr
 from MealCourseRecipe mcr
 join Recipe r
-on r.RecipeId = r.RecipeId
+on r.RecipeId = mcr.RecipeId
 join Username u 
 on u.UsernameId = r.UsernameId
+where u.UsernameName = 'ssuss'
+
+delete mcr 
+from MealCourseRecipe mcr
+join MealCourse mc 
+on mc.MealCourseId = mcr.MealCourseId
+join Meal m
+on mc.MealId = m.MealId
+join Username u 
+on u.UsernameId = m.UsernameId
 where u.UsernameName = 'ssuss'
 
 delete mc 
@@ -173,19 +193,19 @@ Produce a result set that has 4 columns (Data values in brackets should be repla
 ;
 -- SM Use datediff(hour). And this should only return those that are drafted. Add data.
 with x as(
-	select AvgHoursInDraft = avg(datediff(day, r.DateDrafted, r.DatePublished)*24)
+	select AvgHoursInDraft = avg(datediff(hour, r.DateDrafted, r.DatePublished))
 	from Recipe r
-	join Username u
-	on u.UsernameId = r.RecipeId
 )
 select u.FirstName, u.LastName, EmailAddress = lower(concat(substring(u.FirstName, 1, 1), u.LastName, '@heartyhearth.com')), 
-	Alert = concat('Your recipe ', r.RecipeName, ' is sitting in draft for ', datediff(day, r.DateDrafted, r.DatePublished)*24, ' hours. That is ', 
-	(datediff(day, r.DateDrafted, r.DatePublished)*24) - x.AvgHoursInDraft, ' hours more than the average ', x.AvgHoursInDraft, ' hours all other recipes took to be published.' )
+	Alert = concat('Your recipe ', r.RecipeName, ' is sitting in draft for ', datediff(hour, r.DateDrafted, getdate()), ' hours. That is ', 
+	datediff(hour, r.DateDrafted, getdate()) - x.AvgHoursInDraft, ' hours more than the average ', x.AvgHoursInDraft, ' hours all other recipes took to be published.' )
 from x
 cross join Recipe r
 join Username u
 on r.UsernameId = u.UsernameId
-where (datediff(day, r.DateDrafted, r.DatePublished)*24) - x.AvgHoursInDraft > 0
+where (datediff(hour, r.DateDrafted, getdate()) - x.AvgHoursInDraft) > 0
+and r.RecipeStatus = 'drafted'
+group by u.FirstName, u.LastName, r.RecipeName, r.DateDrafted, x.AvgHoursInDraft
 /*
 6) We want to send out marketing emails for books. Produce a result set with one row and one column "Email Body" as specified below.
 The email should have a unique guid link to follow, which should be shown in the format specified. 
