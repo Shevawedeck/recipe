@@ -85,8 +85,8 @@ namespace RecipeTest
             TestContext.WriteLine("Calories for recipeid " + recipeid + " is " + calories);
             calories = calories - 1000;
             TestContext.WriteLine("change Calories to " + calories);
+            
             DataTable dt = Recipe.Load(recipeid);
-
             dt.Rows[0]["Calories"] = calories;
             Exception ex = Assert.Throws<Exception>(() => Recipe.Save(dt));
             TestContext.WriteLine(ex.Message);
