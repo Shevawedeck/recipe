@@ -78,6 +78,9 @@ union select (select u.UsernameId from Username u where u.UsernameName = 'ssuss'
 union select (select u.UsernameId from Username u where u.UsernameName = 'maga'),  (select c.CuisineId from Cuisine c where c.CuisineType = 'English'), 'Butter Muffins', 300, '4/2/18', '7/3/18', null
 union select (select u.UsernameId from Username u where u.UsernameName = 'ssuss'),  (select c.CuisineId from Cuisine c where c.CuisineType = 'American'), 'Cheese Omelet', 100, '1/2/18', '3/3/18', null
 union select (select u.UsernameId from Username u where u.UsernameName = 'eliyair'),  (select c.CuisineId from Cuisine c where c.CuisineType = 'American'), 'Avacado Toast', 257, '1/2/17', '2/3/17', null
+union select (select u.UsernameId from Username u where u.UsernameName = 'ssuss'),  (select c.CuisineId from Cuisine c where c.CuisineType = 'American'), 'Pargiyot', 100, '1/2/18', '3/3/18', '3/23/18'
+union select (select u.UsernameId from Username u where u.UsernameName = 'ssuss'),  (select c.CuisineId from Cuisine c where c.CuisineType = 'American'), 'Lemon Pie', 100, '1/2/18', null, '3/23/19'
+union select (select u.UsernameId from Username u where u.UsernameName = 'ctepfer'),  (select c.CuisineId from Cuisine c where c.CuisineType = 'American'), 'Apple Pie', 100, '1/2/16', null, null
 
 insert Direction(RecipeId, SequenceNum, DirectionDesc)
 select (select r.RecipeId from Recipe r where r.RecipeName = 'Arugula Salad'), 1, 'Dice all ingredients (except the arugula)'
@@ -207,6 +210,10 @@ union select (select r.RecipeId from Recipe r where r.RecipeName = 'Avacado Toas
     null, 0.5, 2
 union select (select r.RecipeId from Recipe r where r.RecipeName = 'Avacado Toast'), (select i.IngredientId from Ingredient i where i.IngredientName = 'tomato'),
     null, 0.5, 3
+union select (select r.RecipeId from Recipe r where r.RecipeName = 'Pargiyot'), (select i.IngredientId from Ingredient i where i.IngredientName = 'garlic clove'),
+    null, 3, 1
+union select (select r.RecipeId from Recipe r where r.RecipeName = 'Pargiyot'), (select i.IngredientId from Ingredient i where i.IngredientName = 'black pepper'),
+    (select m.MeasurementTypeId from MeasurementType m where m.MeasurementTypeName = 'teaspoon'), 0.25, 2
 
 insert MealCourse(MealId, CourseId)
 select (select m.MealId from Meal m where m.MealName = 'Summer Brunch'), (select c.CourseId from Course c where c.CourseType = 'appetizer')

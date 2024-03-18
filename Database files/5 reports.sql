@@ -49,21 +49,15 @@ Recipe details page:
 */
 --a)
 -- SM No need for CTE. You can count distinct.
-
-select r.RecipeName, r.Calories, NumIngredients = count(distinct ri.RecipeIngredientId), NumSteps = count(d.RecipeId), r.RecipeImage
+select r.RecipeName, r.Calories, NumIngredients = count(distinct ri.RecipeIngredientId), NumSteps = count(distinct d.DirectionId), r.RecipeImage
 from Recipe r 
-join Direction d 
-on d.RecipeId = r.RecipeId
 join RecipeIngredient ri 
 on ri.RecipeId = r.RecipeId
+join Direction d 
+on d.RecipeId = r.RecipeId
 where r.RecipeName = 'Apple Yogurt Smoothie'
 group by r.RecipeName, r.Calories, r.RecipeImage
 
-select NumSteps = count(d.RecipeId)
-from Recipe r
-join Direction d 
-on d.RecipeId = r.RecipeId
-where r.RecipeName = 'Apple Yogurt Smoothie'
 --b)
 select ListIngredients = concat(ri.Amount,' ', m.MeasurementTypeName, ' ', i.IngredientName), r.RecipeImage
 from RecipeIngredient ri 
@@ -88,44 +82,18 @@ Meal list page:
     For all active meals, show the meal name, user that created the meal, number of calories for the meal, number of courses, and number of recipes per each meal, sorted by name of meal
 */
 -- SM Should only be for active meals. No need for CTE. You can count distinct.
-;
-with x as(
-    select m.MealName, NumCalories = sum(r.Calories)
-    from Meal m 
-    join MealCourse mc 
-    on mc.MealId = m.MealId
-    join MealCourseRecipe mcr 
-    on mcr.MealCourseId = mc.MealCourseId
-    join Recipe r 
-    on r.RecipeId = mcr.RecipeId
-    group by m.MealName
-), 
-y as(
-    select m.MealName, NumRecipes = count(*)
-    from Meal m 
-    join MealCourse mc 
-    on mc.MealId = m.MealId
-    join MealCourseRecipe mcr 
-    on mcr.MealCourseId = mc.MealCourseId
-    group by m.MealName
-), 
-z as(
-    select m.MealName, NumCourses = count(mc.CourseId)
-    from Meal m 
-    join MealCourse mc 
-    on m.MealId = mc.MealId
-    group by m.MealName
-)
-select m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), x.NumCalories, z.NumCourses, y.NumRecipes
+select m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), NumCalories = sum(r.Calories), NumCourses = count(distinct mc.CourseId), NumRecipes = count(mcr.RecipeId)
 from Meal m 
-join x 
-on x.MealName = m.MealName
-join y 
-on y.MealName = x.MealName
-join z 
-on z.MealName = m.MealName
 join Username u 
 on u.UsernameId = m.UsernameId
+join MealCourse mc 
+on mc.MealId = m.MealId
+join MealCourseRecipe mcr 
+on mcr.MealCourseId = mc.MealCourseId
+join Recipe r 
+on r.RecipeId = mcr.RecipeId
+where m.IsActive = 1
+group by m.MealName, u.FirstName, u.LastName
 order by m.MealName
 /*
 Meal details page:
@@ -179,7 +147,7 @@ on cr.CookbookId = c.CookbookId
 join Username u
 on c.UsernameId = u.UsernameId
 group by c.CookbookName, c.Price, u.FirstName, u.LastName
-
+order by c.CookbookName
 /*
 Cookbook details page:
     Show for specific cookbook:
@@ -197,35 +165,23 @@ on cr.CookbookId = c.CookbookId
 where c.CookbookName = 'Treats for Two'
 group by c.CookbookName, u.UsernameName, c.DateCreated, c.Price, c.CookbookImage
 --b
-;
 -- SM Should be sorted in correct order. And no need for CTE.
-with x as
-(
-    select r.RecipeName, NumIngredients = count(ri.RecipeId)
-    from Cookbook c
-    join CookbookRecipe cr 
-    on cr.CookbookId = c.CookbookId
-    join Recipe r 
-    on r.RecipeId = cr.RecipeId
-    join RecipeIngredient ri 
-    on ri.RecipeId = r.RecipeId
-    where c.CookbookName = 'Treats for Two'
-    group by r.RecipeName
-)
-select r.RecipeName, u.CuisineType, x.NumIngredients, NumSteps = count(d.RecipeId), c.CookbookImage
+
+select r.RecipeName, u.CuisineType, NumIngredients = count(distinct ri.RecipeIngredientId), NumSteps = count(distinct d.DirectionDesc), c.CookbookImage
 from Cookbook c 
 join CookbookRecipe cr 
 on cr.CookbookId = c.CookbookId
 join Recipe r 
 on r.RecipeId = cr.RecipeId
+join RecipeIngredient ri 
+on ri.RecipeId = r.RecipeId
 join Cuisine u 
 on u.CuisineId = r.CuisineId
 join Direction d 
 on d.RecipeId = r.RecipeId
-join x 
-on x.RecipeName = r.RecipeName
 where c.CookbookName = 'Treats for Two'
-group by r.RecipeName, u.CuisineType, x.NumIngredients, c.CookbookImage
+group by r.RecipeName, u.CuisineType, c.CookbookImage, cr.SequenceNum
+order by cr.SequenceNum
 /*
 April Fools Page:
     On April 1st we have a page with a joke cookbook. For that page provide the following.
@@ -237,7 +193,7 @@ April Fools Page:
 */
 --a
 -- SM This is returning multiple times each recipe.
-select JokeRecipes = concat(upper(substring(reverse(r.RecipeName),1,1)), lower(substring(reverse(r.RecipeName),2,100))), 
+select distinct JokeRecipes = concat(upper(substring(reverse(r.RecipeName),1,1)), lower(substring(reverse(r.RecipeName),2,100))), 
        Pictures = concat('Recipe_', replace(concat(upper(substring(reverse(r.RecipeName),1,1)), lower(substring(reverse(r.RecipeName),2,100))), ' ', '_'),'.jpg')
 from Recipe r
 join CookbookRecipe cr 
@@ -315,14 +271,14 @@ on x.UsernameName = u.UsernameName
 group by u.UsernameName, x.NumRecipes
 --c)
 -- SM Use sum() and set to 1 else 0. And you set the opposite.
-select u.UsernameName, TotalMeals = count(m.MealId), ActiveMeals = count(case when m.IsActive = 0 then m.MealId end), InactiveMeals = count(case when m.IsActive = 1 then m.MealId end) 
+select u.UsernameName, TotalMeals = count(m.MealId), ActiveMeals = sum(case when m.IsActive = 1 then 1 else 0 end), InactiveMeals = sum(case when m.IsActive = 0 then 1 else 0 end) 
 from Meal m 
 join Username u 
 on u.UsernameId = m.UsernameId
 group by u.UsernameName 
 --d) 
 -- SM Use sum() and set to 1 else 0. And you set the opposite.
-select u.UsernameName, TotalCookbooks = count(c.CookbookId), ActiveCookbooks = count(case when c.IsActive = 0 then c.CookbookId end), InactiveCookbooks = count(case when c.IsActive = 1 then c.CookbookId end) 
+select u.UsernameName, TotalCookbooks = count(c.CookbookId), ActiveCookbooks = sum(case when c.IsActive = 1 then 1 else 0 end), InactiveCookbooks = sum(case when c.IsActive = 0 then 1 else 0 end) 
 from Cookbook c
 join Username u 
 on u.UsernameId = c.UsernameId
@@ -332,7 +288,7 @@ group by u.UsernameName
 select r.RecipeName, DaysTilArchived = datediff(day, r.DateDrafted, r.DateArchived)
 from Recipe r 
 where r.RecipeStatus = 'archived'
-and r.DatePublished = null
+and r.DatePublished is null
 /*
 For user dashboard page:
     a) For a specific user, show one result set with the number of recipes, meals, and cookbooks. Each row should have a column with the item name (Ex: Recipes) and a column with the count.
@@ -345,7 +301,7 @@ For user dashboard page:
 */
 --a
 -- SM Add column name.
-select 'Recipes', count(r.RecipeName)
+select ItemName = 'Recipes', CountItems = count(r.RecipeName)
 from Username u 
 join Recipe r 
 on r.UsernameId = u.UsernameId
@@ -362,10 +318,10 @@ on c.UsernameId = u.UsernameId
 where u.UsernameName = 'ssuss'
 --b
 -- SM Published can never be before archived. Use isnull()
-select r.RecipeName, r.RecipeStatus, NumOfHoursUntilCurrentStatus = datediff(hour, case when r.RecipeStatus = 'published' then r.DateDrafted 
-                                                                                        when r.RecipeStatus = 'archived' and r.DatePublished < r.DateDrafted then r.DateDrafted  
+select r.RecipeName, r.RecipeStatus, NumOfHoursUntilCurrentStatus = isnull(datediff(hour, case when r.RecipeStatus = 'published' then r.DateDrafted 
+                                                                                        when r.RecipeStatus = 'archived' and r.DatePublished is null then r.DateDrafted  
                                                                                         else r.DatePublished end, 
-                                                                                    case when r.RecipeStatus = 'archived' then r.DateArchived else r.DatePublished end)
+                                                                                    case when r.RecipeStatus = 'archived' then r.DateArchived else r.DatePublished end), 0)
 from Username u 
 join Recipe r 
 on r.UsernameId = u.UsernameId
