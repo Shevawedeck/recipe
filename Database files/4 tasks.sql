@@ -3,22 +3,19 @@
 
 --1) Sometimes when a staff member is fired. We need to eradicate everything from that user in our system. Write the SQL to delete a specific user and all the user's related records.
 -- SM This delete crashes.
-delete r 
+delete cr
 from CookbookRecipe cr
 join Recipe r
 on r.RecipeId = cr.RecipeId
 join Username u 
 on u.UsernameId = r.UsernameId
 where u.UsernameName = 'ssuss'
-
 -- SM This delete crashes.
 -- Tip: No need to join to recipe
-delete r
+delete cr
 from CookbookRecipe cr
 join Cookbook c
 on cr.CookbookId = c.CookbookId
-join Recipe r
-on r.RecipeId = cr.RecipeId
 join Username u 
 on u.UsernameId = c.UsernameId
 where u.UsernameName = 'ssuss'

@@ -32,13 +32,14 @@ Recipe list page:
 select RecipeName = case RecipeStatus 
                     when 'archived' then concat('<span style="color:gray">', r.RecipeName, '</span>')
 -- SM Tip: Use else.
-                    when 'published'then r.RecipeName end, 
+                    else r.RecipeName end, 
                     r.RecipeStatus, DateArchived = isnull(convert(varchar, r.DateArchived, 101), ''), DatePublished = isnull(convert(varchar, r.DatePublished, 101), ''), u.UsernameName, r.Calories, NumIngredients = count(ri.IngredientId)
 from Recipe r
 join Username u
 on u.UsernameId = r.UsernameId
 join RecipeIngredient ri
 on r.RecipeId = ri.RecipeId
+where r.RecipeStatus <> 'drafted'
 group by r.RecipeName, r.RecipeStatus, u.UsernameName, r.Calories, r.DateArchived, DatePublished
 order by r.RecipeStatus desc 
 /*
@@ -62,11 +63,11 @@ group by r.RecipeName, r.Calories, r.RecipeImage
 -- SM The previous statement returns 6 ingredients, but this returns only 4.
 select ListIngredients = concat(ri.Amount,' ', m.MeasurementTypeName, ' ', i.IngredientName), r.RecipeImage
 from RecipeIngredient ri 
-join Ingredient i 
+left join Ingredient i 
 on i.IngredientId = ri.IngredientId
-join MeasurementType m 
+left join MeasurementType m 
 on m.MeasurementTypeId = ri.MeasurementTypeId
-join Recipe r 
+left join Recipe r 
 on r.RecipeId = ri.RecipeId
 where r.RecipeName = 'Apple Yogurt Smoothie'
 order by ri.SequenceNum
@@ -83,7 +84,7 @@ Meal list page:
     For all active meals, show the meal name, user that created the meal, number of calories for the meal, number of courses, and number of recipes per each meal, sorted by name of meal
 */
 -- SM Count distinct for both
-select m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), NumCalories = sum(r.Calories), NumCourses = count(distinct mc.CourseId), NumRecipes = count(mcr.RecipeId)
+select m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), NumCalories = sum(r.Calories), NumCourses = count(distinct mc.CourseId), NumRecipes = count(distinct mcr.RecipeId)
 from Meal m 
 join Username u 
 on u.UsernameId = m.UsernameId
@@ -314,10 +315,8 @@ where u.UsernameName = 'ssuss'
 -- SM Don't use isnull() for full datediff(). Use it in case statement. 
 -- Ex: Instead of doing "case when r.RecipeStatus = 'archived' then r.DateArchived else r.DatePublished end", use isnull(r.DateArchived,r.DatePublished)
 -- You can use it in first part also. Try for yourself.
-select r.RecipeName, r.RecipeStatus, NumOfHoursUntilCurrentStatus = isnull(datediff(hour, case when r.RecipeStatus = 'published' then r.DateDrafted 
-                                                                                        when r.RecipeStatus = 'archived' and r.DatePublished is null then r.DateDrafted  
-                                                                                        else r.DatePublished end, 
-                                                                                    case when r.RecipeStatus = 'archived' then r.DateArchived else r.DatePublished end), 0)
+select r.RecipeName, r.RecipeStatus, NumOfHoursUntilCurrentStatus = datediff(hour, case when r.RecipeStatus = 'published' then isnull(r.DateDrafted, r.DatePublished) else isnull(r.DatePublished, r.DateDrafted) end, 
+                                                                            isnull(r.DateArchived,r.DatePublished))
 from Username u 
 join Recipe r 
 on r.UsernameId = u.UsernameId
