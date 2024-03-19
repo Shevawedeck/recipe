@@ -98,7 +98,7 @@ namespace RecipeTest
             Assume.That(recipeid > 0, "no recipes in DB, cant run test");
             string recipename = GetFirstColumnFirstRowValueAsString("select top 1 RecipeName from recipe where recipeid <> " + recipeid);
             string currecipename = GetFirstColumnFirstRowValueAsString("select top 1 RecipeName from recipe where recipeid = " + recipeid);
-            TestContext.WriteLine("change recipeid " + recipeid + " recipename from " + currecipename + " to " + recipename + "which belongs to a diff recipe");
+            TestContext.WriteLine("change recipeid " + recipeid + " recipename from " + currecipename + " to " + recipename + " which belongs to a diff recipe");
             DataTable dt = Recipe.Load(recipeid);
             dt.Rows[0]["RecipeName"] = recipename;
             Exception ex = Assert.Throws<Exception>(() => Recipe.Save(dt));
@@ -259,7 +259,7 @@ namespace RecipeTest
             {
                 if (dt.Rows[0][0] != DBNull.Value)
                 {
-                    dt.Rows[0][0].ToString();
+                    n = dt.Rows[0][0].ToString();
                 }
             }
             return n;
