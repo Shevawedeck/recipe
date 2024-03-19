@@ -35,7 +35,6 @@ create table dbo.Ingredient(
     IngredientName varchar(50) not null 
         constraint u_Ingredient_name unique 
         constraint ck_Ingredient_name_cannot_be_blank check(IngredientName <> ''),
--- SM Really important!!! Change it to _ instead of -
     IngredientImage as concat('Ingredient_', replace(IngredientName, ' ', '_'), '.jpg') persisted
 )
 
@@ -66,7 +65,6 @@ create table dbo.Recipe(
                     when DatePublished is not null and DateArchived is null then 'published'
                     else 'archived'
                     end,
--- SM Really important!!! Change it to _ instead of -
     RecipeImage as concat('Recipe_', replace(RecipeName, ' ', '_'), '.jpg'),
     constraint ck_Recipe_date_archived_must_be_after_date_drafted check(DateArchived > DateDrafted),
     constraint ck_Recipe_date_published_must_be_after_date_drafted check(DatePublished > DateDrafted),
@@ -99,7 +97,6 @@ create table dbo.Meal(
         constraint u_Meal_name unique,
     DateCreated date not null constraint ck_Meal_date_created_must_be_after_1950_and_cannot_be_a_future_date check(year(DateCreated) between 1950 and getdate()),
     IsActive bit not null default 1,
--- SM Really important!!! Change it to _ instead of -
     MealImage as concat('Meal_', replace(MealName, ' ', '_'), '.jpg')
 )
 
@@ -112,7 +109,6 @@ create table dbo.Cookbook(
     Price decimal(6,2) not null constraint ck_Cookbook_price_cannot_be_negative check(Price >= 0),
     IsActive bit not null default 1,
     DateCreated date constraint ck_Cookbook_date_created_must_be_after_1950_and_cannot_be_a_future_date check(year(DateCreated) between 1950 and getdate() ),
--- SM Really important!!! Change it to _ instead of -
     CookbookImage as concat('CookBook_', replace(CookbookName, ' ', '_'), '.jpg')
 )
 

@@ -1,11 +1,8 @@
--- SM Excellent! 92% See comments, fix and resubmit.
+-- SM Excellent! 98% See comments, fix and resubmit.
 --Note: some of these scripts are needed for specific items, when the instructions say "specific" pick one item in your data and specify it in the where clause using a unique value that identifies it, do not use the primary key.
 
 --1) Sometimes when a staff member is fired. We need to eradicate everything from that user in our system. Write the SQL to delete a specific user and all the user's related records.
--- SM -50% Yes this would delete this specific user. But what about the meals? What about if this user created recipes and other users used it for their meals/cookbooks?
--- SM The user has recipes and cookbooks. In order to delete the cookbooks you need to delete all recipes in the users cookbook not all the users recipes.
--- And in order to delete all users recipes you need to delete all users recipes from all cookbooks not just users cookbook.
--- The same is with meals.
+-- SM This delete crashes.
 delete r 
 from CookbookRecipe cr
 join Recipe r
@@ -14,6 +11,8 @@ join Username u
 on u.UsernameId = r.UsernameId
 where u.UsernameName = 'ssuss'
 
+-- SM This delete crashes.
+-- Tip: No need to join to recipe
 delete r
 from CookbookRecipe cr
 join Cookbook c
@@ -191,7 +190,6 @@ Produce a result set that has 4 columns (Data values in brackets should be repla
 		That is [Z] hours more than the average [Y] hours all other recipes took to be published.
 */
 ;
--- SM Use datediff(hour). And this should only return those that are drafted. Add data.
 with x as(
 	select AvgHoursInDraft = avg(datediff(hour, r.DateDrafted, r.DatePublished))
 	from Recipe r
@@ -203,6 +201,7 @@ from x
 cross join Recipe r
 join Username u
 on r.UsernameId = u.UsernameId
+-- SM Tip: Instead of doing calculations. Use datediff() > avg
 where (datediff(hour, r.DateDrafted, getdate()) - x.AvgHoursInDraft) > 0
 and r.RecipeStatus = 'drafted'
 group by u.FirstName, u.LastName, r.RecipeName, r.DateDrafted, x.AvgHoursInDraft
