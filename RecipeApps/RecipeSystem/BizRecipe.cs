@@ -27,7 +27,7 @@ namespace RecipeSystem
 
         public List<BizRecipe> Search(string cookbookname)
         {
-            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeSearch");
+            SqlCommand cmd = SQLUtility.GetSQLCommand("CookbookRecipeSearch");
             SQLUtility.SetParamValue(cmd, "@CookbookName", cookbookname);
             DataTable dt = SQLUtility.GetDataTable(cmd);
             return this.GetListFromDataTable(dt);
