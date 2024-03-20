@@ -2,11 +2,11 @@ create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @All bit = 0, @Recipe
 as
 begin
     select @RecipeName = nullif(@RecipeName, ''), @IncludeBlank = isnull(@IncludeBlank, 0)
-    select r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, NumIngredients = count(ri.IngredientId), Vegan = case when r.Vegan = 0 then 'No' else 'Yes' end
+    select r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, NumIngredients = isnull(count(ri.IngredientId), 0), Vegan = case when r.Vegan = 0 then 'No' else 'Yes' end
     from Recipe r
     join Username u
     on u.UsernameId = r.UsernameId
-    join RecipeIngredient ri
+    left join RecipeIngredient ri
     on r.RecipeId = ri.RecipeId
     where r.RecipeId = @RecipeId
     or @All = 1

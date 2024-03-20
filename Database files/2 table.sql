@@ -66,9 +66,9 @@ create table dbo.Recipe(
                     else 'archived'
                     end,
     RecipeImage as concat('Recipe_', replace(RecipeName, ' ', '_'), '.jpg'),
-    constraint ck_Recipe_date_archived_must_be_after_date_drafted check(DateArchived > DateDrafted),
-    constraint ck_Recipe_date_published_must_be_after_date_drafted check(DatePublished > DateDrafted),
-    constraint ck_Recipe_date_published_must_be_before_date_archived check(DatePublished < DateArchived)
+    constraint ck_Recipe_date_archived_must_be_after_date_drafted check(DateArchived >= DateDrafted),
+    constraint ck_Recipe_date_published_must_be_after_date_drafted check(DatePublished >= DateDrafted),
+    constraint ck_Recipe_date_published_must_be_before_date_archived check(DatePublished <= DateArchived)
 )
 
 create table dbo.Direction(

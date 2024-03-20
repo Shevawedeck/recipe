@@ -43,3 +43,5 @@ grant execute on CookbookRecipeDelete to approle
 grant execute on CookbookRecipeUpdate to approle
 grant execute on RecipeIngredientDelete to approle
 grant execute on RecipeIngredientUpdate to approle
+grant execute on RecipeDraft to approle
+grant execute on CookbookRecipeSearch to approle

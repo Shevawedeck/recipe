@@ -23,10 +23,15 @@ namespace RecipeWinForms
             this.Tag = recipeid;
             dtrecipe = Recipe.Load(recipeid);
             bindsource.DataSource = dtrecipe;
+            txtDateDrafted.DataBindings.Clear();
             WindowsFormUtility.SetControlBinding(txtDateDrafted, bindsource);
+            txtDatePublished.DataBindings.Clear();
             WindowsFormUtility.SetControlBinding(txtDatePublished, bindsource);
+            txtDateArchived.DataBindings.Clear();
             WindowsFormUtility.SetControlBinding(txtDateArchived, bindsource);
+            lblRecipeStatus.DataBindings.Clear();
             WindowsFormUtility.SetControlBinding(lblRecipeStatus, bindsource);
+            lblRecipeName.DataBindings.Clear();
             WindowsFormUtility.SetControlBinding(lblRecipeName, bindsource);
             GetCurrentStatus();
             EnableDisable();
@@ -104,10 +109,7 @@ namespace RecipeWinForms
                     currentstatus = StatusEnum.Drafted;
                     Recipe.SaveDateDraft(dtrecipe);
                 }
-                //Recipe.SaveDate(dtrecipe);
                 EnableDisable();
-                //dtrecipe = Recipe.Load(recipeid);
-                //bindsource.DataSource = dtrecipe;
                 LoadForm(recipeid);
             }
             catch (Exception ex)

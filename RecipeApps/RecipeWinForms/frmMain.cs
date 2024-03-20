@@ -44,11 +44,11 @@ namespace RecipeWinForms
 
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
-            bool b = WindowsFormUtility.IsFormOpen(frmtype);
+            bool b = WindowsFormUtility.IsFormOpen(frmtype, pkvalue);
             Form? newfrm = null;
             if (b == false)
             {
-               
+
                 if (frmtype == typeof(frmDashboard))
                 {
                     frmDashboard f = new frmDashboard();
@@ -71,17 +71,17 @@ namespace RecipeWinForms
                 }
                 else if (frmtype == typeof(frmNewRecipe))
                 {
-                    if (pkvalue == 0)
-                    {
+                    //if (pkvalue == 0)
+                    //{
                         frmNewRecipe f = new();
                         newfrm = f;
-                    }
-                    if (pkvalue > 0)
-                    {
-                        frmNewRecipe f = new();
-                        newfrm = f;
+                    //}
+                    //if (pkvalue > 0)
+                    //{
+                        //frmNewRecipe f = new();
+                        //newfrm = f;
                         f.LoadForm(pkvalue);
-                    }
+                    //}
                 }
                 else if (frmtype == typeof(frmNewCookbook))
                 {
@@ -111,26 +111,17 @@ namespace RecipeWinForms
                     newfrm = f;
                     f.LoadForm(pkvalue);
                 }
-                if (newfrm != null)
-                {
-                    newfrm.MdiParent = this;
-                    newfrm.WindowState = FormWindowState.Maximized;
-                    newfrm.FormClosed += Frm_FormClosed;
-                    newfrm.TextChanged += Newfrm_TextChanged;
-                    newfrm.Show();
-                }
-                WindowsFormUtility.SetUpNav(tsMain);
+
             }
-            else if (b == true)
+            if (newfrm != null)
             {
-                if (frmtype == typeof(frmNewRecipe))
-                {
-                    frmNewRecipe f = new();
-                    newfrm = f;
-                    f.LoadForm(pkvalue);
-                }
-                //else if(frmtype == typeof(frmNewRecipe) && pkvalue == 0)
+                newfrm.MdiParent = this;
+                newfrm.WindowState = FormWindowState.Maximized;
+                newfrm.FormClosed += Frm_FormClosed;
+                newfrm.TextChanged += Newfrm_TextChanged;
+                newfrm.Show();
             }
+            WindowsFormUtility.SetUpNav(tsMain);
         }
         private void Newfrm_TextChanged(object? sender, EventArgs e)
         {

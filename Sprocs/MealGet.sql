@@ -29,7 +29,7 @@ begin
         on m.MealId = mc.MealId
         group by m.MealName
     )
-    select m.MealId, m.UsernameId, m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), x.NumCalories, z.NumCourses, y.NumRecipes, m.DateCreated, m.IsActive, m.MealImage, m.MealDesc
+    select m.MealId, m.UsernameId, m.MealName, [User] = concat(u.FirstName, ' ', u.LastName), x.NumCalories, z.NumCourses, y.NumRecipes, m.DateCreated, IsActive = case m.IsActive when 0 then 'no' when 1 then 'yes' end, m.MealImage, m.MealDesc
     from Meal m 
     join x 
     on x.MealName = m.MealName
@@ -42,7 +42,7 @@ begin
     where @All = 1
     or m.MealName = @MealName
     or m.MealId = @MealId
-    union select 0, 0, '', '', 0, 0, 0, '', 0, '', ''
+    union select 0, 0, '', '', 0, 0, 0, '', '', '', ''
     where @IncludeBlank = 1
     order by m.MealName
 end 
