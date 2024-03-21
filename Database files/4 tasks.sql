@@ -1,8 +1,8 @@
--- SM Excellent! 98% See comments, fix and resubmit.
+-- SM Excellent! 100% See comment, no need to resubmit.
 --Note: some of these scripts are needed for specific items, when the instructions say "specific" pick one item in your data and specify it in the where clause using a unique value that identifies it, do not use the primary key.
 
 --1) Sometimes when a staff member is fired. We need to eradicate everything from that user in our system. Write the SQL to delete a specific user and all the user's related records.
--- SM This delete crashes.
+
 delete cr
 from CookbookRecipe cr
 join Recipe r
@@ -10,8 +10,7 @@ on r.RecipeId = cr.RecipeId
 join Username u 
 on u.UsernameId = r.UsernameId
 where u.UsernameName = 'ssuss'
--- SM This delete crashes.
--- Tip: No need to join to recipe
+
 delete cr
 from CookbookRecipe cr
 join Cookbook c
