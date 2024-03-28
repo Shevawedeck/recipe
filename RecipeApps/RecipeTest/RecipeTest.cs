@@ -253,7 +253,7 @@ namespace RecipeTest
         }
         private string GetFirstColumnFirstRowValueAsString(string sql)
         {
-            string n = "";
+            string? n = "";
             DataTable dt = GetDataTable(sql);
             if (dt.Rows.Count > 0 && dt.Columns.Count > 0)
             {

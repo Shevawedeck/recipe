@@ -65,7 +65,16 @@ namespace RecipeWinForms
         }
         private void Delete(int rowindex)
         {
-            var response = MessageBox.Show($"Are you sure you want to delete this {currenttabletype.ToString()} and all related records?", "HeartyHearth", MessageBoxButtons.YesNo);
+            var response = DialogResult.No;
+            if (currenttabletype.ToString() == "Username")
+            {
+                response = MessageBox.Show($"Are you sure you want to delete this user and all related recipes, meals and cookbooks?", "HeartyHearth", MessageBoxButtons.YesNo);
+            }
+            else
+            {
+                response = MessageBox.Show($"Are you sure you want to delete this {currenttabletype.ToString()} and all related records?", "HeartyHearth", MessageBoxButtons.YesNo);
+            }
+            
             int id = WindowsFormUtility.GetIdFromGrid(gData, rowindex, currenttabletype.ToString() + "Id");
             if (response == DialogResult.No)
             {

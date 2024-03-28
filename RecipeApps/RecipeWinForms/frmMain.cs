@@ -71,17 +71,9 @@ namespace RecipeWinForms
                 }
                 else if (frmtype == typeof(frmNewRecipe))
                 {
-                    //if (pkvalue == 0)
-                    //{
                         frmNewRecipe f = new();
                         newfrm = f;
-                    //}
-                    //if (pkvalue > 0)
-                    //{
-                        //frmNewRecipe f = new();
-                        //newfrm = f;
                         f.LoadForm(pkvalue);
-                    //}
                 }
                 else if (frmtype == typeof(frmNewCookbook))
                 {
