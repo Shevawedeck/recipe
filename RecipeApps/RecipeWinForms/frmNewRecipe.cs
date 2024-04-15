@@ -24,6 +24,25 @@ namespace RecipeWinForms
             gIngredients.CellContentClick += GIngredients_CellContentClick;
             gSteps.CellContentClick += GSteps_CellContentClick;
             btnChangeStatus.Click += BtnChangeStatus_Click;
+            gIngredients.DataError += GIngredients_DataError;
+            gSteps.DataError += GSteps_DataError;
+            this.Activated += FrmNewRecipe_Activated;
+        }
+
+        private void FrmNewRecipe_Activated(object? sender, EventArgs e)
+        {
+            LoadDirection();
+            LoadRecipeIngredient();
+        }
+
+        private void GSteps_DataError(object? sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Wrong Data Type");
+        }
+
+        private void GIngredients_DataError(object? sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Wrong Data Type");
         }
 
         public void LoadForm(int recipeidval)
@@ -44,8 +63,6 @@ namespace RecipeWinForms
             WindowsFormUtility.SetControlBinding(txtDateArchived, bindsource);
             WindowsFormUtility.SetControlBinding(txtRecipeStatus, bindsource);
             this.Text = GetRecipeDesc();
-            LoadDirection();
-            LoadRecipeIngredient();
             SetButtonsEnabledBasedOnNew();
         }
         private void LoadDirection()
@@ -65,7 +82,16 @@ namespace RecipeWinForms
             WindowsFormUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Measurement"), "MeasurementType", "MeasurementTypeName");
             WindowsFormUtility.FormatGridForEdit(gIngredients, "RecipeIngredient");
             WindowsFormUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
-            //gIngredients.Columns["IngredientName"].Visible = false;
+        }
+        private void CheckNumeric(string sequencenum)
+        {
+            
+            decimal d = 0;
+            bool b = decimal.TryParse(sequencenum, out d);
+            if (b== false)
+            {
+                throw new Exception();
+            }
         }
         private void ShowForm(Type frmtype)
         {
@@ -125,25 +151,27 @@ namespace RecipeWinForms
         {
             try
             {
+                string s = "";
 
+
+                CheckNumeric(s);
+                Direction.SaveTable(dt, recipeid);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Application.ProductName);
             }
-            Direction.SaveTable(dt, recipeid);
         }
         private void SaveIngredient()
         {
             try
             {
-
+                Ingredient.SaveRecipeIngredient(dtingredients, recipeid);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Application.ProductName);
             }
-            Ingredient.SaveRecipeIngredient(dtingredients, recipeid);
         }
         private void DeleteDirection(int rowindex)
         {
@@ -234,12 +262,20 @@ namespace RecipeWinForms
         }
         private void GSteps_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            DeleteDirection(e.RowIndex);
+            if (e.RowIndex != -1 && gSteps.Columns[e.ColumnIndex].Name == deletecolname)
+            {
+                DeleteDirection(e.RowIndex);
+            }
+                
         }
 
         private void GIngredients_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            DeleteIngredient(e.RowIndex);
+            if (e.RowIndex != -1 && gSteps.Columns[e.ColumnIndex].Name == deletecolname)
+            {
+                DeleteIngredient(e.RowIndex);
+            }
+            
         }
         private void BtnSaveSteps_Click(object? sender, EventArgs e)
         {

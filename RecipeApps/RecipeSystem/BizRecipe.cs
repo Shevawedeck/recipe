@@ -24,15 +24,22 @@ namespace RecipeSystem
         private string _recipestatus = "";
         private string _usernamename = "";
         private int _numingredients;
+        private string _recipeimage = "";
 
-        public List<BizRecipe> Search(string cookbookname)
+        public List<BizRecipe> SearchByCookbook(string cookbookname)
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("CookbookRecipeSearch");
             SQLUtility.SetParamValue(cmd, "@CookbookName", cookbookname);
             DataTable dt = SQLUtility.GetDataTable(cmd);
             return this.GetListFromDataTable(dt);
         }
-
+        public List<BizRecipe> SearchByCuisine(string cuisinetype)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("CuisineRecipeSearch");
+            SQLUtility.SetParamValue(cmd, "@CuisineType", cuisinetype);
+            DataTable dt = SQLUtility.GetDataTable(cmd);
+            return this.GetListFromDataTable(dt);
+        }
         public int RecipeId
         {
             get { return _recipeId; }
@@ -175,6 +182,18 @@ namespace RecipeSystem
                 if (_numingredients != value)
                 {
                     _numingredients = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string RecipeImage
+        {
+            get { return _recipeimage; }
+            set
+            {
+                if (_recipeimage != value)
+                {
+                    _recipeimage = value;
                     InvokePropertyChanged();
                 }
             }

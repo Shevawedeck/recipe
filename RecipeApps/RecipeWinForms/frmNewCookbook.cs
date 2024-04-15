@@ -58,7 +58,7 @@ namespace RecipeWinForms
             int pkvalue = SQLUtility.GetValueFromFirstRowAsInt(dtcookbook, "CookbookId");
             if (pkvalue > 0)
             {
-                value = SQLUtility.GetValueFromFirstRowAsInt(dtcookbook, "Price") + SQLUtility.GetValueFromFirstRowAsString(dtcookbook, "CookbookName");
+                value = "Cookbook - " + SQLUtility.GetValueFromFirstRowAsString(dtcookbook, "CookbookName");
             }
             return value;
         }
@@ -96,7 +96,7 @@ namespace RecipeWinForms
             Application.UseWaitCursor = true;
             try
             {
-                Cookbook.Delete(dtcookbookrecipe);
+                Cookbook.Delete(dtcookbook);//changed
                 this.Close();
             }
             catch (Exception ex)
@@ -112,13 +112,12 @@ namespace RecipeWinForms
         {
             try
             {
-
+                Cookbook.SaveCookbookRecipe(dtcookbookrecipe, cookbookid);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Application.ProductName);
             }
-            Cookbook.SaveCookbookRecipe(dtcookbookrecipe, cookbookid);
         }
         private void DeleteCookbookRecipe(int rowindex)
         {
@@ -147,17 +146,17 @@ namespace RecipeWinForms
         //        ((frmMain)this.MdiParent).OpenForm(frmtype);
         //    }
         //}
-        private void BindData()
-        {
-            DataTable dtlist = new();
-            string deletecolname = "deletecol";
-            dtlist = DataMaintenance.GetDataList("Recipe");
-            gRecipe.Columns.Clear();
-            gRecipe.DataSource = dtlist;
-            WindowsFormUtility.AddComboBoxToGrid(gRecipe, DataMaintenance.GetDataList("Recipe"), "Recipe", "RecipeName");
-            WindowsFormUtility.AddDeleteButtonToGrid(gRecipe, deletecolname);
-            WindowsFormUtility.FormatGridForEdit(gRecipe, "Recipe");
-        }
+        //private void BindData()
+        //{
+        //    DataTable dtlist = new();
+        //    string deletecolname = "deletecol";
+        //    dtlist = DataMaintenance.GetDataList("Recipe");
+        //    gRecipe.Columns.Clear();
+        //    gRecipe.DataSource = dtlist;
+        //    WindowsFormUtility.AddComboBoxToGrid(gRecipe, DataMaintenance.GetDataList("Recipe"), "Recipe", "RecipeName");
+        //    WindowsFormUtility.AddDeleteButtonToGrid(gRecipe, deletecolname);
+        //    WindowsFormUtility.FormatGridForEdit(gRecipe, "Recipe");
+        //}
         private void BtnSaveRecipes_Click(object? sender, EventArgs e)
         {
             SaveCookbookRecipe();
