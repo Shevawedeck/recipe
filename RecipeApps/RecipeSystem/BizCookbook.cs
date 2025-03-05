@@ -17,7 +17,7 @@ namespace RecipeSystem
         private DateTime _dateCreated;
         private string _skillDesc;
         private string _author;
-        private string _isActive;
+        private string _cookbookImage;
         
         public List<BizCookbook> Search(string cookbooknameval)
         {
@@ -86,18 +86,6 @@ namespace RecipeSystem
                 }
             }
         }
-        public string IsActive
-        {
-            get { return _isActive; }
-            set
-            {
-                if (_isActive != value)
-                {
-                    _isActive = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
         public string Author
         {
             get { return _author; }
@@ -106,6 +94,30 @@ namespace RecipeSystem
                 if (_author != value)
                 {
                     _author = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public string CookbookImage
+        {
+            get { return _cookbookImage; }
+            set
+            {
+                if (_cookbookImage != value)
+                {
+                    _cookbookImage = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+        public DateTime DateCreated
+        {
+            get { return _dateCreated; }
+            set
+            {
+                if (_dateCreated != value)
+                {
+                    _dateCreated = value;
                     InvokePropertyChanged();
                 }
             }

@@ -12,7 +12,6 @@ namespace RecipeWinForms
         BindingSource bindsource = new BindingSource();
         string deletecolname = "deletecol";
         int recipeid = 0;
-        int recipeingredientid = 0;
         public frmNewRecipe()
         {
             InitializeComponent();
@@ -28,23 +27,6 @@ namespace RecipeWinForms
             gSteps.DataError += GSteps_DataError;
             this.Activated += FrmNewRecipe_Activated;
         }
-
-        private void FrmNewRecipe_Activated(object? sender, EventArgs e)
-        {
-            LoadDirection();
-            LoadRecipeIngredient();
-        }
-
-        private void GSteps_DataError(object? sender, DataGridViewDataErrorEventArgs e)
-        {
-            MessageBox.Show("Wrong Data Type");
-        }
-
-        private void GIngredients_DataError(object? sender, DataGridViewDataErrorEventArgs e)
-        {
-            MessageBox.Show("Wrong Data Type");
-        }
-
         public void LoadForm(int recipeidval)
         {
             recipeid = recipeidval;
@@ -82,23 +64,6 @@ namespace RecipeWinForms
             WindowsFormUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Measurement"), "MeasurementType", "MeasurementTypeName");
             WindowsFormUtility.FormatGridForEdit(gIngredients, "RecipeIngredient");
             WindowsFormUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
-        }
-        private void CheckNumeric(string sequencenum)
-        {
-            
-            decimal d = 0;
-            bool b = decimal.TryParse(sequencenum, out d);
-            if (b== false)
-            {
-                throw new Exception();
-            }
-        }
-        private void ShowForm(Type frmtype)
-        {
-            if (this.MdiParent != null && this.MdiParent is frmMain)
-            {
-                ((frmMain)this.MdiParent).OpenForm(frmtype);
-            }
         }
         private void Delete()
         {
@@ -151,10 +116,6 @@ namespace RecipeWinForms
         {
             try
             {
-                string s = "";
-
-
-                CheckNumeric(s);
                 Direction.SaveTable(dt, recipeid);
             }
             catch (Exception ex)
@@ -238,7 +199,6 @@ namespace RecipeWinForms
             btnSaveIngredients.Enabled = b;
             btnSaveSteps.Enabled = b;
             btnChangeStatus.Enabled = b;
-            //btnSaveRecipe.Enabled = b;
         }
         private string GetRecipeDesc()
         {
@@ -309,6 +269,21 @@ namespace RecipeWinForms
                         break;
                 }
             }
+        }
+        private void FrmNewRecipe_Activated(object? sender, EventArgs e)
+        {
+            LoadDirection();
+            LoadRecipeIngredient();
+        }
+
+        private void GSteps_DataError(object? sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Wrong Data Type");
+        }
+
+        private void GIngredients_DataError(object? sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Wrong Data Type");
         }
 
         private void BtnDelete_Click(object? sender, EventArgs e)

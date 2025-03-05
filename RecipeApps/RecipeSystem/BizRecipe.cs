@@ -18,12 +18,12 @@ namespace RecipeSystem
         private string _recipename = "";
         private int _calories;
         private DateTime _datedrafted;
-        private DateTime _datepublished;
-        private DateTime _datearchived;
-        private string _vegan = "";
-        private string _recipestatus = "";
-        private string _usernamename = "";
-        private int _numingredients;
+        private DateTime? _datepublished;
+        private DateTime? _datearchived;
+        //private string _recipestatus = "";
+        //private string _usernamename = "";
+        //private string _cuisinetype = "";
+        //private int _numingredients;
         private string _recipeimage = "";
 
         public List<BizRecipe> SearchByCookbook(string cookbookname)
@@ -33,10 +33,10 @@ namespace RecipeSystem
             DataTable dt = SQLUtility.GetDataTable(cmd);
             return this.GetListFromDataTable(dt);
         }
-        public List<BizRecipe> SearchByCuisine(string cuisinetype)
+        public List<BizRecipe> SearchByCuisine(int cuisineid)
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("CuisineRecipeSearch");
-            SQLUtility.SetParamValue(cmd, "@CuisineType", cuisinetype);
+            SQLUtility.SetParamValue(cmd, "@CuisineId", cuisineid);
             DataTable dt = SQLUtility.GetDataTable(cmd);
             return this.GetListFromDataTable(dt);
         }
@@ -114,7 +114,7 @@ namespace RecipeSystem
                 }
             }
         }
-        public DateTime DatePublished
+        public DateTime? DatePublished
         {
             get { return _datepublished; }
             set
@@ -126,7 +126,7 @@ namespace RecipeSystem
                 }
             }
         }
-        public DateTime DateArchived
+        public DateTime? DateArchived
         {
             get { return _datearchived; }
             set
@@ -138,54 +138,42 @@ namespace RecipeSystem
                 }
             }
         }
-        public string Vegan
-        {
-            get { return _vegan; }
-            set
-            {
-                if (_vegan != value)
-                {
-                    _vegan = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
-        public string RecipeStatus
-        {
-            get { return _recipestatus; }
-            set
-            {
-                if (_recipestatus != value)
-                {
-                    _recipestatus = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
-        public string UsernameName
-        {
-            get { return _usernamename; }
-            set
-            {
-                if (_usernamename != value)
-                {
-                    _usernamename = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
-        public int NumIngredients
-        {
-            get { return _numingredients; }
-            set
-            {
-                if (_numingredients != value)
-                {
-                    _numingredients = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
+        //public string RecipeStatus
+        //{
+        //    get { return _recipestatus; }
+        //    set
+        //    {
+        //        if (_recipestatus != value)
+        //        {
+        //            _recipestatus = value;
+        //            InvokePropertyChanged();
+        //        }
+        //    }
+        //}
+        //public string UsernameName
+        //{
+        //    get { return _usernamename; }
+        //    set
+        //    {
+        //        if (_usernamename != value)
+        //        {
+        //            _usernamename = value;
+        //            InvokePropertyChanged();
+        //        }
+        //    }
+        //}
+        //public int NumIngredients
+        //{
+        //    get { return _numingredients; }
+        //    set
+        //    {
+        //        if (_numingredients != value)
+        //        {
+        //            _numingredients = value;
+        //            InvokePropertyChanged();
+        //        }
+        //    }
+        //}
         public string RecipeImage
         {
             get { return _recipeimage; }
@@ -198,5 +186,17 @@ namespace RecipeSystem
                 }
             }
         }
+        //public string CuisineType
+        //{
+        //    get { return _cuisinetype; }
+        //    set
+        //    {
+        //        if (_cuisinetype != value)
+        //        {
+        //            _cuisinetype = value;
+        //            InvokePropertyChanged();
+        //        }
+        //    }
+        //}
     }
 }

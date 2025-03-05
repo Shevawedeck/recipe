@@ -13,7 +13,7 @@ namespace RecipeWinForms
 {
     public partial class frmDataMaintenance : Form
     {
-        private enum TableTypeEnum { Username, Cuisine, Ingredient, Measurement, Course }
+        private enum TableTypeEnum { Username, Cuisine, Ingredient, MeasurementType, Course }
         DataTable dtlist = new();
         TableTypeEnum currenttabletype = TableTypeEnum.Username;
         string deletecolname = "deletecol";
@@ -114,7 +114,7 @@ namespace RecipeWinForms
             optUsername.Tag = TableTypeEnum.Username;
             optCuisine.Tag = TableTypeEnum.Cuisine;
             optIngredient.Tag = TableTypeEnum.Ingredient;
-            optMeasurement.Tag = TableTypeEnum.Measurement;
+            optMeasurement.Tag = TableTypeEnum.MeasurementType;
             optCourse.Tag = TableTypeEnum.Course;
         }
 

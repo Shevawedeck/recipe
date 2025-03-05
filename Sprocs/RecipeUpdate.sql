@@ -6,9 +6,7 @@ create or alter procedure dbo.RecipeUpdate(
     @Calories int,
     @DateDrafted date = null output,
     @DatePublished date = null output,
-    @DateArchived date = null output,
-    @RecipeStatus varchar(10) = '' output,
-    @RecipeImage varchar(150) = '' output
+    @DateArchived date = null output
 )
 as
 begin
@@ -36,3 +34,4 @@ begin
     end
 end 
 go
+

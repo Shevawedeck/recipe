@@ -6,11 +6,11 @@ as
 begin
     declare @return int = 0
     
-    --if exists(select * from MealCourseRecipe m left join CookbookRecipe cr on cr.RecipeId = m.RecipeId where m.RecipeId = @RecipeId or cr.RecipeId = @RecipeId)
-    --begin
-    --    select @return = 1, @Message = 'Cannot delete recipe that is part of a meal or cookbook.'
-    --    goto finished
-    --end
+    if exists(select * from MealCourseRecipe m left join CookbookRecipe cr on cr.RecipeId = m.RecipeId where m.RecipeId = @RecipeId or cr.RecipeId = @RecipeId)
+    begin
+        select @return = 1, @Message = 'Cannot delete recipe that is part of a meal or cookbook.'
+        goto finished
+    end
     
     if exists(select * from Recipe r where r.RecipeId = @RecipeId and (datediff(day, r.DateArchived, current_timestamp) <= 30 or r.RecipeStatus = 'published'))
     begin

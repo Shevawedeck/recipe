@@ -30,10 +30,51 @@ namespace RecipeAPI
         {
             return new BizRecipe().SearchByCookbook(cookbookname);
         }
-        [HttpGet("getbycuisine/{cuisinetype}")]
-        public List<BizRecipe> GetByCuisineType(string cuisinetype)
+        [HttpGet("getbycuisine/{cuisineid}")]
+        public List<BizRecipe> GetByCuisineId(int cuisineid)
         {
-            return new BizRecipe().SearchByCuisine(cuisinetype);
+            return new BizRecipe().SearchByCuisine(cuisineid);
+        }
+        [HttpPost]
+        [AuthPermission(1)]
+        public IActionResult Post(BizRecipe recipe)
+        {
+            try
+            {
+                recipe.Save();
+                return Ok(recipe);
+            }
+            catch (Exception ex)
+            {
+                recipe.ErrorMessage = ex.Message;
+                return BadRequest(recipe);
+            }
+        }
+        [HttpDelete]
+        [AuthPermission(3)]
+        public IActionResult Delete(int id)
+        {
+            BizRecipe r = new();
+            try
+            {
+                r.Delete(id);
+                return Ok(r);
+            }
+            catch (Exception ex)
+            {
+                r.ErrorMessage = ex.Message;
+                return BadRequest(r);
+            }
+        }
+        [HttpGet("usernames")]
+        public List<BizUsername> GetUsernames()
+        {
+            return new BizUsername().GetList();
+        }
+        [HttpGet("cuisines")]
+        public List<BizCuisine> GetCuisines()
+        {
+            return new BizCuisine().GetList();
         }
     }
 }

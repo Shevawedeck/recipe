@@ -57,7 +57,7 @@ create table dbo.Recipe(
         constraint ck_Recipe_name_cannot_be_blank check(RecipeName <> ''),
     Calories int not null 
         constraint ck_Recipe_calories_must_be_greater_then_zero check(Calories > 0),
-    DateDrafted date not null default getdate(),
+    DateDrafted date not null default convert(date, getdate()),
          constraint ck_Recipe_date_drafted_must_be_after_1950 check(year(DateDrafted) > 1950), 
     DatePublished date null,
     DateArchived date null,

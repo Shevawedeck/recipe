@@ -20,5 +20,34 @@ namespace RecipeAPI
             c.Load(id);
             return c;
         }
+        [HttpPost]
+        public IActionResult Post(BizCookbook cookbook)
+        {
+            try
+            {
+                cookbook.Save();
+                return Ok(cookbook);
+            }
+            catch (Exception ex)
+            {
+                cookbook.ErrorMessage = ex.Message;
+                return BadRequest(cookbook);
+            }
+        }
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            BizCookbook c = new();
+            try
+            {
+                c.Delete(id);
+                return Ok(c);
+            }
+            catch (Exception ex)
+            {
+                c.ErrorMessage = ex.Message;
+                return BadRequest(c);
+            }
+        }
     }
 }

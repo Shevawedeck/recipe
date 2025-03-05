@@ -1,22 +1,34 @@
 create or alter procedure dbo.RecipeIngredientGet(
     @RecipeIngredientId int = 0, 
     @IngredientId int = 0, 
-    @RecipeId int = 0, @All bit = 0
+    @RecipeId int = 0,
+	@All bit = 0,
+	@IncludeBlank bit = 0,
+	@Message varchar(500) = ''  output
 )
 as
 begin
-    select ri.RecipeIngredientId, ri.RecipeId, ri.IngredientId,ri.MeasurementTypeId, ri.SequenceNum, ri.Amount
+    declare @return int = 0
+
+	select @All = isnull(@All,0), @RecipeIngredientId = isnull(@RecipeIngredientId,0), @RecipeId = isnull(@RecipeId, 0)
+
+    select ri.RecipeIngredientId, ri.RecipeId, ri.IngredientId, i.IngredientName--,ri.MeasurementTypeId, ri.SequenceNum, ri.Amount
     from Ingredient i
-    join RecipeIngredient ri 
+    left join RecipeIngredient ri 
     on i.IngredientId = ri.IngredientId
-    join MeasurementType m 
+    left join MeasurementType m 
     on m.MeasurementTypeId = ri.MeasurementTypeId
-    where i.IngredientId = @IngredientId
+    where ri.RecipeIngredientId = @RecipeIngredientId
     or @All = 1
-   -- or (@IngredientName <> '' and i.IngredientName like '%' + @IngredientName + '%')
-    or ri.RecipeId = @RecipeId 
-    or ri.RecipeIngredientId = @RecipeIngredientId
+    or ri.RecipeId = @RecipeId
+    --or (@IngredientName <> '' and i.IngredientName like '%' + @IngredientName + '%')
+    --or ri.RecipeId = @RecipeId 
+    --or ri.RecipeIngredientId = @RecipeIngredientId
+    union select 0,0,0, ''
+    where @IncludeBlank = 1
+    return @return
 end
 go
 
---exec IngredientGet @All = 1
+--exec RecipeIngredientGet @RecipeId = 2
+--select * from Recipe

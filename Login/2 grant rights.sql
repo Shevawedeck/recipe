@@ -46,3 +46,4 @@ grant execute on RecipeIngredientUpdate to approle
 grant execute on RecipeDraft to approle
 grant execute on CookbookRecipeSearch to approle
 grant execute on MeasurementUpdate to approle
+grant execute on CuisineRecipeSearch to approle
