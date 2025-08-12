@@ -10,7 +10,7 @@ grant execute on CuisineGet to approle
 grant execute on RecipeGet to approle
 grant execute on RecipeUpdate to approle
 grant execute on IngredientGet to approle
-grant execute on MeasurementGet to approle
+grant execute on MeasurementTypeGet to approle
 grant execute on CourseGet to approle
 grant execute on CuisineDelete to approle
 grant execute on CourseUpdate to approle
@@ -38,12 +38,12 @@ grant execute on CourseDelete to approle
 grant execute on MeasurementDelete to approle
 grant execute on RecipeSearch to approle
 grant execute on MealGet to approle
-grant execute on CaloriesPerMeal to approle
+--grant execute on CaloriesPerMeal to approle
 grant execute on CookbookRecipeDelete to approle
 grant execute on CookbookRecipeUpdate to approle
 grant execute on RecipeIngredientDelete to approle
 grant execute on RecipeIngredientUpdate to approle
 grant execute on RecipeDraft to approle
 grant execute on CookbookRecipeSearch to approle
-grant execute on MeasurementUpdate to approle
+--grant execute on MeasurementUpdate to approle
 grant execute on CuisineRecipeSearch to approle

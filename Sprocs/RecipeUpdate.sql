@@ -14,8 +14,8 @@ begin
 
     if @RecipeId = 0
     begin
-        insert Recipe(UsernameId, CuisineId, RecipeName, Calories)
-        values(@UsernameId, @CuisineId, @RecipeName, @Calories)
+        insert Recipe(UsernameId, CuisineId, RecipeName, Calories, DateDrafted)
+        values(@UsernameId, @CuisineId, @RecipeName, @Calories, @DateDrafted)
 
         select @RecipeId = SCOPE_IDENTITY()
     end

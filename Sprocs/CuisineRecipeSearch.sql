@@ -14,16 +14,16 @@ begin
     insert @t(recipeid)
     select r.RecipeId
     from Recipe r
-    join Cuisine c
+    left join Cuisine c
     on c.CuisineId = r.CuisineId
 	where (c.CuisineType like '%' + @CuisineType + '%' or @CuisineType = '')
     and (c.CuisineId = @CuisineId or @CuisineId = 0)
 
-	select r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, NumIngredients = count(ri.IngredientId), r.RecipeImage
+	select r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage
     from @t t
-    join Recipe r
+    left join Recipe r
     on t.Recipeid = r.RecipeId
-    join RecipeIngredient ri
+    left join RecipeIngredient ri
     on r.RecipeId = ri.RecipeId
     group by r.RecipeId, r.UsernameId, r.CuisineId, r.RecipeName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage
 	order by r.RecipeName

@@ -2,7 +2,8 @@ create or alter procedure dbo.DirectionGet(
     @DirectionId int = 0,
     @RecipeId int = 0,
     @All bit = 0,
-    @Message varchar(500) = '' output
+    @Message varchar(500) = '' output, 
+    @IncludeBlank bit = 0
 )
 as
 begin 
@@ -14,6 +15,8 @@ begin
     where d.DirectionId = @DirectionId
     or @All = 1 
     or d.RecipeId = @RecipeId
+    union select 0, 0, 0, ''
+    where @IncludeBlank = 1
     return @return
 end
 go

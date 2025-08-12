@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipeSystem
 {
-    internal class BizMeasurementType: BizObject<BizMeasurementType>
+    public class BizMeasurementType: BizObject<BizMeasurementType>
     {
         private int _measurementtypeid;
         private string _measurementtypename = "";

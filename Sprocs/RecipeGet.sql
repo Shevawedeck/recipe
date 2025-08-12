@@ -2,7 +2,7 @@ create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @All bit = 0, @Recipe
 as
 begin
     select @RecipeName = nullif(@RecipeName, ''), @IncludeBlank = isnull(@IncludeBlank, 0)
-    select r.RecipeId, r.UsernameId, r.CuisineId, c.CuisineType, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage, NumIngredients = isnull(count(ri.IngredientId), 0)
+    select r.RecipeId, r.UsernameId, r.CuisineId, c.CuisineType, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived--, r.RecipeImage, NumIngredients = isnull(count(ri.IngredientId), 0)
     from Recipe r
     join Username u
     on u.UsernameId = r.UsernameId
@@ -13,8 +13,8 @@ begin
     where r.RecipeId = @RecipeId
     or @All = 1
     or r.RecipeName = @RecipeName
-    group by r.RecipeId, r.UsernameId, r.CuisineId, c.CuisineType, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeImage
-    union select 0, 0, 0, '', '', '', '', 0, '', '', '', '',0
+    group by r.RecipeId, r.UsernameId, r.CuisineId, c.CuisineType, r.RecipeName,  r.RecipeStatus, u.UsernameName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived--, r.RecipeImage
+    union select 0, 0, 0, '', '', '', '', 0, '', '', ''
     where @IncludeBlank = 1
     order by r.RecipeStatus desc
     

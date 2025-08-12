@@ -12,7 +12,7 @@ begin
 
 	select @All = isnull(@All,0), @RecipeIngredientId = isnull(@RecipeIngredientId,0), @RecipeId = isnull(@RecipeId, 0)
 
-    select ri.RecipeIngredientId, ri.RecipeId, ri.IngredientId, i.IngredientName--,ri.MeasurementTypeId, ri.SequenceNum, ri.Amount
+    select ri.RecipeIngredientId, ri.RecipeId, ri.IngredientId, i.IngredientName,ri.MeasurementTypeId, ri.SequenceNum, ri.Amount
     from Ingredient i
     left join RecipeIngredient ri 
     on i.IngredientId = ri.IngredientId
@@ -22,9 +22,7 @@ begin
     or @All = 1
     or ri.RecipeId = @RecipeId
     --or (@IngredientName <> '' and i.IngredientName like '%' + @IngredientName + '%')
-    --or ri.RecipeId = @RecipeId 
-    --or ri.RecipeIngredientId = @RecipeIngredientId
-    union select 0,0,0, ''
+    union select 0,0,0, '',0,0,0
     where @IncludeBlank = 1
     return @return
 end

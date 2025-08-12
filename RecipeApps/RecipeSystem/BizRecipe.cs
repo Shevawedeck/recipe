@@ -17,7 +17,7 @@ namespace RecipeSystem
         private int _cuisineId;
         private string _recipename = "";
         private int _calories;
-        private DateTime _datedrafted;
+        private DateTime? _datedrafted;
         private DateTime? _datepublished;
         private DateTime? _datearchived;
         //private string _recipestatus = "";
@@ -102,7 +102,7 @@ namespace RecipeSystem
                 }
             }
         }
-        public DateTime DateDrafted
+        public DateTime? DateDrafted
         {
             get { return _datedrafted; }
             set

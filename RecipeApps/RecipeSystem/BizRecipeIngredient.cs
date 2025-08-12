@@ -11,9 +11,9 @@ namespace RecipeSystem
         private int _recipeingredientid;
         private int _recipeid;
         private int _ingredientid;
-        private string _ingredientname = "";
+        //private string _ingredientname = "";
         private int _measurementtypeid;
-        private int _amount;
+        private decimal _amount;
         private int _sequencenum;
 
         public List<BizRecipeIngredient>LoadByRecipeId(int recipeid)
@@ -59,18 +59,18 @@ namespace RecipeSystem
                 }
             }
         }
-        public string IngredientName
-        {
-            get { return _ingredientname; }
-            set
-            {
-                if (_ingredientname != value)
-                {
-                    _ingredientname = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
+        //public string IngredientName
+        //{
+        //    get { return _ingredientname; }
+        //    set
+        //    {
+        //        if (_ingredientname != value)
+        //        {
+        //            _ingredientname = value;
+        //            InvokePropertyChanged();
+        //        }
+        //    }
+        //}
         public int MeasurementTypeId
         {
             get { return _measurementtypeid; }
@@ -83,7 +83,7 @@ namespace RecipeSystem
                 }
             }
         }
-        public int Amount
+        public decimal Amount
         {
             get { return _amount; }
             set
@@ -102,7 +102,7 @@ namespace RecipeSystem
             {
                 if (_sequencenum != value)
                 {
-                    _amount = value;
+                    _sequencenum = value;
                     InvokePropertyChanged();
                 }
             }

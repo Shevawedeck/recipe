@@ -61,10 +61,6 @@ namespace RecipeAPI
                 return BadRequest(r);
             }
         }
-        [HttpGet("ingredients")]
-        public List<BizIngredient> GetIngredients()
-        {
-            return new BizIngredient().GetList(true);
-        }
+        
     }
 }

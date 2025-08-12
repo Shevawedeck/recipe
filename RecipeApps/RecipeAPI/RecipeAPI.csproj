@@ -7,18 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="secret-appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="secret-appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +17,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RecipeSystem\RecipeSystem.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="secret-appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
